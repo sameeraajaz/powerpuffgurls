@@ -2,12 +2,42 @@
 (async()=>{
  const canvas=document.getElementById('character-canvas'),world=document.getElementById('character-world');
  if(!canvas||!world)return;
- if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){window.dispatchEvent(new CustomEvent('ppg-model-status',{detail:{message:'STATIC MODE / REDUCED MOTION'}}));return}
+ const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const debug=new URLSearchParams(location.search).has('debug3d');
+ const state={engine:null,loaded:[],errors:[],reducedMotion,modelUrls:{}};
+ window.PPG_3D_DEBUG=state;
+ const report=(message)=>{window.dispatchEvent(new CustomEvent('ppg-model-status',{detail:{message}})); if(debug)console.info('[PPG 3D]',message)};
+ if(location.protocol==='file:'){
+   report('3D REQUIRES HTTP/HTTPS — USE VERCEL OR LOCAL SERVER');
+   state.errors.push('file:// cannot load ES modules and GLBs reliably');
+   return;
+ }
+ report('CONNECTING 3D ENGINE...');
  let THREE,GLTFLoader;
- try{THREE=await import('three');({GLTFLoader}=await import('three/addons/loaders/GLTFLoader.js'))}catch(e){console.warn('3D modules unavailable; retaining character illustrations.',e);window.dispatchEvent(new CustomEvent('ppg-model-status',{detail:{message:'CHARACTER ART / 3D OFFLINE'}}));return}
- if(!THREE.WebGLRenderer)return;
+ const sources=[
+   {name:'jsDelivr',three:()=>import('three'),loader:()=>import('three/addons/loaders/GLTFLoader.js')},
+   {name:'esm.sh backup',three:()=>import('https://esm.sh/three@0.180.0'),loader:()=>import('https://esm.sh/three@0.180.0/examples/jsm/loaders/GLTFLoader.js')}
+ ];
+ for (const source of sources){
+   try{
+     THREE=await source.three();
+     ({GLTFLoader}=await source.loader());
+     if(!THREE?.WebGLRenderer || !GLTFLoader)throw new Error('Three.js modules incomplete');
+     state.engine=source.name;
+     report('3D ENGINE ONLINE / '+source.name.toUpperCase());
+     break;
+   }catch(e){
+     const msg=source.name+': '+(e?.message||String(e));
+     state.errors.push(msg);
+     console.warn('[PPG 3D] Module source failed:',msg);
+   }
+ }
+ if(!THREE?.WebGLRenderer || !GLTFLoader){
+   report('3D LIBRARIES BLOCKED — CHECK NETWORK / AD BLOCKER');
+   return;
+ }
  let renderer;
- try{renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.55));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.65}catch(e){console.warn('WebGL unavailable',e);return}
+ try{renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.55));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.65}catch(e){const msg='WebGL initialization: '+(e?.message||e);state.errors.push(msg);console.error('[PPG 3D]',msg);report('WEBGL UNAVAILABLE — ENABLE HARDWARE ACCELERATION');return}
  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(39,1,.05,100);
  camera.position.set(0,.15,8.2);camera.lookAt(0,.05,0);
  scene.add(new THREE.AmbientLight('#ffffff',2.3));
@@ -24,7 +54,9 @@
  function emit(s){window.dispatchEvent(new CustomEvent('ppg-model-status',{detail:{message:s}}))}
  await Promise.allSettled(charConfig.map(async ([name,x])=>{
   try{
-   const gltf=await loader.loadAsync(`./assets/models/${name}.glb`);
+   const modelUrl=new URL(`./assets/models/${name}.glb`,import.meta.url).href;
+   state.modelUrls[name]=modelUrl;
+   const gltf=await loader.loadAsync(modelUrl);
    const holder=new THREE.Group();holder.position.set(x,-1.18,0);
    const root=gltf.scene;root.updateMatrixWorld(true);
    const box=new THREE.Box3().setFromObject(root),sz=new THREE.Vector3();box.getSize(sz);
@@ -35,11 +67,12 @@
    gltf.animations.forEach(clip=>{actions[clip.name.toLowerCase()]=mixer.clipAction(clip).setLoop(THREE.LoopRepeat)});
    const head=root.getObjectByName('mixamorig:Head')||null;
    members.push({name,x,holder,root,mixer,actions,head,current:null,phase:Math.random()*4,baseScale:1});
-   emit(`${members.length} / 3 CYBER SPECIALISTS LOADED`);
-  }catch(e){console.warn(name,'could not load:',e)}
+   state.loaded.push(name);
+   report(`${members.length} / 3 CYBER SPECIALISTS LOADED`);
+  }catch(e){const msg=name+': '+(e?.message||String(e));state.errors.push(msg);console.error('[PPG 3D] MODEL LOAD FAILED',msg, state.modelUrls[name]);report('FAILED TO LOAD '+name.toUpperCase()+' — CHECK /ASSETS/MODELS/');}
  }));
- if(members.length===0){emit('2D CHARACTER MODE ACTIVE');return}
- if(members.length===3){world.classList.add('model-ready');emit('3 / 3 CYBER SPECIALISTS ONLINE')}else{emit('PARTIAL 3D / ILLUSTRATIONS AVAILABLE');world.classList.add('model-ready')}
+ if(members.length===0){report('3D FILES FAILED — CHECK MODEL PATHS AND HOSTING');return}
+ if(members.length===3){world.classList.add('model-ready');report('3 / 3 CYBER SPECIALISTS ONLINE')}else{report('PARTIAL 3D — '+members.length+' OF 3 LOADED');world.classList.add('model-ready')}
  function playAnimation(m,name){const a=m.actions[name];if(m.current===name||!a)return;if(m.current&&m.actions[m.current])m.actions[m.current].fadeOut(.32);a.reset().fadeIn(.3).play();m.current=name}
  function stopAnimation(m){if(m.current&&m.actions[m.current]){m.actions[m.current].fadeOut(.35)}m.current=null}
  window.addEventListener('ppg-character',e=>{requested=e.detail.character||'blossom';members.forEach(m=>{if(m.name===requested)playAnimation(m,'walking');else stopAnimation(m)})});
@@ -54,17 +87,17 @@
   const mobile=window.innerWidth<700;
   const spread=mobile?1.55:1.95;
   members.forEach(m=>{
-   m.mixer.update(delta);
+   if(!reducedMotion) m.mixer.update(delta);
    const isSelected=m.name===requested,isHovered=m.name===hovered;
    const targetX=docked?0:(m.name==='bubbles'?-spread:m.name==='buttercup'?spread:0);
    const targetScale=docked?(isSelected?1.02:.001):(isSelected?1.1:1);
-   const scrollFlight=docked?0:Math.sin(Math.min(1,scrollProgress*5.8)*Math.PI);
+   const scrollFlight=(docked||reducedMotion)?0:Math.sin(Math.min(1,scrollProgress*5.8)*Math.PI);
    const lerp=Math.min(1,delta*4.7);
    m.holder.position.x=THREE.MathUtils.lerp(m.holder.position.x,targetX,lerp);
-   m.holder.position.y=THREE.MathUtils.lerp(m.holder.position.y,-1.18+(isSelected?.10:0)+scrollFlight*(isSelected?.31:.16)+Math.sin(t*1.5+m.phase)*.02,lerp);
+   m.holder.position.y=THREE.MathUtils.lerp(m.holder.position.y,-1.18+(isSelected?.10:0)+scrollFlight*(isSelected?.31:.16)+(reducedMotion?0:Math.sin(t*1.5+m.phase)*.02),lerp);
    const s=THREE.MathUtils.lerp(m.holder.scale.x,targetScale,lerp);m.holder.scale.setScalar(s);
    m.holder.rotation.y=THREE.MathUtils.lerp(m.holder.rotation.y,(isHovered?.16:0)+pointer.x*.065,lerp);
-   m.holder.rotation.z=THREE.MathUtils.lerp(m.holder.rotation.z,Math.sin(t*1.1+m.phase)*.014+scrollFlight*(m.name==='bubbles'?.09:m.name==='buttercup'?-.08:.045),lerp);
+   m.holder.rotation.z=THREE.MathUtils.lerp(m.holder.rotation.z,(reducedMotion?0:Math.sin(t*1.1+m.phase)*.014)+scrollFlight*(m.name==='bubbles'?.09:m.name==='buttercup'?-.08:.045),lerp);
    if(m.head && !m.current){m.head.rotation.y=THREE.MathUtils.lerp(m.head.rotation.y,THREE.MathUtils.clamp(pointer.x*.18,-.17,.17),delta*1.3);m.head.rotation.x=THREE.MathUtils.lerp(m.head.rotation.x,THREE.MathUtils.clamp(-pointer.y*.09,-.09,.09),delta*1.3)}
    // A restrained walk cycle is triggered on selection; every other state idles naturally.
    if(m.current==='walking'&&m.actions.walking && m.actions.walking.time>1.2)stopAnimation(m);

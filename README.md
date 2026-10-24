@@ -1,3 +1,17 @@
+# PowerpuffGurls V2 — 3D Reliability Fix
+
+The original site relies exclusively on jsDelivr for Three.js, even though the GLBs are packaged. V2 tries a second provider (esm.sh), surfaces precise errors and keeps GLBs visible with OS reduced-motion settings. It does not bundle Three.js locally, so internet access remains necessary.
+
+**Test deployed page:** Open `https://YOUR-SITE.vercel.app/?debug3d=1` to see engine source, model URLs, loaded characters and errors displayed on the page.
+
+If an image appears instead of the models: check network for 404 responses on `assets/models/*.glb` and failures from jsDelivr/esm.sh. `file://` preview doesn't support the 3D loader correctly.
+
+**Important:** The three large cards under “Meet Your Squad” remain static WebP art in V2. The actual animated 3D stage is on the homepage and floating dock. Adding separate real-time 3D model views to each card is a different feature.
+
+**Models:** Each optimized GLB contains a rig + `Running` and `Walking` animations; additional character moves need clips.
+
+---
+
 # Powerpuff Gurls — Experimental AI Consultancy Website
 
 A fully designed portable static website, with your **actual three optimized Meshy GLBs**, React-free vanilla JS interactions, a Three.js 3D stage, synthesized Web Audio sound effects, and a guided business-discovery inquiry flow. No build process required.
