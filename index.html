@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08080e" />
+  <meta name="description" content="Powerpuff Gurls — a not-so-ordinary consultancy for ambitious ideas, AI automation and actual business growth." />
+  <meta property="og:title" content="Powerpuff Gurls — Make your next move electric." />
+  <meta property="og:description" content="Strategy, AI automation, sales systems and digital experiences. Less guesswork. More level-ups." />
+  <title>Powerpuff Gurls — Big ideas. Bigger moves.</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+  <script src="./config.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <div id="progress-bar" aria-hidden="true"></div>
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="wordmark" href="#top" aria-label="Powerpuff Gurls home"><span class="brand-glyph">✳</span> POWERPUFF<span class="wordmark-alt">GURLS</span></a>
+    <div class="nav-links"><a href="#what-we-do">What we solve</a><a href="#the-squad">The squad</a><a href="#how-it-works">How it works</a></div>
+    <div class="nav-actions"><button class="sound-switch" id="sound-toggle" type="button" aria-label="Enable sounds" aria-pressed="false"><span class="sound-icon" aria-hidden="true">◖</span><span id="sound-label">SOUND OFF</span><span class="sound-led"></span></button><a class="nav-cta magnetic" href="#diagnosis">LET'S TALK <span aria-hidden="true">↗</span></a></div>
+    <button class="mobile-menu" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+  </nav>
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span> THE FUTURE HAS ENTERED THE CHAT <span class="tiny-code">// EST. RIGHT NOW</span></div>
+        <h1>BIG IDEAS.<br /><em>BIG<span class="outline-type">GER</span></em><br /> MOVES<span class="period">.</span></h1>
+        <p class="hero-desc">Got a business idea? A process that needs fixing? A sales pipeline that needs a serious power-up? <strong>You're in the right universe.</strong></p>
+        <div class="hero-buttons"><a class="btn btn-hot" href="#diagnosis">FIND YOUR NEXT MOVE <span>↗</span></a><a class="btn btn-outline" href="#what-we-do">EXPLORE THE UNIVERSE <span>↓</span></a></div>
+        <div class="micro-copy"><span class="sparkle">✦</span> NOT YOUR AVERAGE CONSULTANCY <span class="asterisk">*</span> ZERO BORING SLIDE DECK ENERGY</div>
+      </div>
+      <div class="character-world" id="character-world" aria-label="Interactive cybernetic consultants">
+        <div class="portal portal-a"></div><div class="portal portal-b"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div id="stage-fallback" class="stage-fallback" aria-hidden="true">
+          <img class="fallback-char fallback-bubbles" src="./assets/images/bubbles.webp" alt="" />
+          <img class="fallback-char fallback-blossom" src="./assets/images/blossom.webp" alt="" />
+          <img class="fallback-char fallback-buttercup" src="./assets/images/buttercup.webp" alt="" />
+        </div>
+        <canvas id="character-canvas" aria-label="Animated three-dimensional cybernetic characters"></canvas>
+        <span class="floating-code floating-code-one">[ 3 SPECIALISTS ONLINE ]</span><span class="floating-code floating-code-two">// READY WHEN YOU ARE</span>
+        <button class="dock-close" id="dock-close" type="button" title="Hide floating characters" aria-label="Hide floating characters">×</button>
+        <div class="stage-status"><span class="status-symbol">◎</span> <span id="character-status">INITIALIZING THE SQUAD...</span></div>
+      </div>
+      <div class="hero-footer"><span>SCROLL TO ENTER <span class="scroll-arrow">↓</span></span><div class="hero-index">001 / AN EXPERIMENT IN WHAT'S POSSIBLE</div><span>IDEAS → IMPACT</span></div>
+    </section>
+
+    <div class="ticker" aria-label="Consulting capabilities"><div class="ticker-track"><span>IDEAS</span><i>✳</i><span>STRATEGY</span><i>✳</i><span>AUTOMATION</span><i>✳</i><span>MORE CUSTOMERS</span><i>✳</i><span>LESS BUSYWORK</span><i>✳</i><span>REAL MOMENTUM</span><i>✳</i><span>IDEAS</span><i>✳</i><span>STRATEGY</span><i>✳</i><span>AUTOMATION</span><i>✳</i><span>MORE CUSTOMERS</span><i>✳</i></div></div>
+
+    <section class="intro section-padding reveal" id="what-we-do">
+      <div class="section-topline"><span>01 / WE SEE THE BIGGER PICTURE</span><span>YOUR PROBLEM IS OUR STARTING POINT</span></div>
+      <div class="intro-layout"><div><div class="label-chip">NO PLAYBOOK? NO PROBLEM.</div><h2>YOU DON'T NEED<br />ALL THE <span class="gradient-ink">ANSWERS.</span><br />JUST A START.</h2></div><div class="intro-side"><p>Some people have a brilliant idea and no clue where to begin. Others have a business that's ready for its next evolution. <strong>We meet you wherever you are and figure out what actually moves the needle.</strong></p><a class="underlined-link" href="#diagnosis">TELL US WHAT'S ON YOUR MIND <span>↗</span></a></div></div>
+      <div class="capability-grid">
+        <button class="cap-card card-pink" type="button" data-goal="strategy"><div class="cap-top"><span>01 — / STRATEGY</span><span>↗</span></div><div class="cap-icon">◈</div><h3>AN IDEA.<br />A GAME PLAN.</h3><p>From “what if?” to “here's exactly what we do next.”</p><div class="cap-tag">BUSINESS STRATEGY</div></button>
+        <button class="cap-card card-blue" type="button" data-goal="automation"><div class="cap-top"><span>02 — / AUTOMATION</span><span>↗</span></div><div class="cap-icon">⌘</div><h3>LESS WORK.<br />MORE MAGIC.</h3><p>AI agents and workflows that take the repetitive stuff off your plate.</p><div class="cap-tag">AI & AUTOMATION</div></button>
+        <button class="cap-card card-green" type="button" data-goal="growth"><div class="cap-top"><span>03 — / GROWTH</span><span>↗</span></div><div class="cap-icon">↗</div><h3>MORE LEADS.<br />MORE MOMENTUM.</h3><p>Smarter prospecting, outreach and sales systems built to scale.</p><div class="cap-tag">SALES & GROWTH</div></button>
+        <button class="cap-card card-white" type="button" data-goal="digital"><div class="cap-top"><span>04 — / DIGITAL</span><span>↗</span></div><div class="cap-icon">{ }</div><h3>BUILD THE<br />IMPOSSIBLE(ISH).</h3><p>Websites, SaaS, custom tools and digital experiences that do their job.</p><div class="cap-tag">PRODUCTS & SYSTEMS</div></button>
+      </div>
+    </section>
+
+    <section class="squad section-padding" id="the-squad">
+      <div class="section-topline"><span>02 / THE BRAINS BEHIND THE CHAOS</span><span>SELECT YOUR PLAYER</span></div>
+      <div class="squad-header reveal"><div><div class="label-chip">THREE BRAINS. ONE MISSION.</div><h2>MEET YOUR<br /><span class="gradient-ink">UNFAIR</span> ADVANTAGE.</h2></div><p>Different personalities. Different superpowers. One goal: helping your business level up. Pick who you want in your corner.</p></div>
+      <div class="squad-grid">
+        <button class="squad-card squad-pink" data-character="blossom" type="button"><div class="squad-meta"><span>PLAYER 01</span><span>♥ STRATEGY</span></div><img src="./assets/images/blossom.webp" loading="lazy" alt="Blossom-inspired pink cybernetic strategy specialist"/><div class="squad-bot"><div><small>THE MASTER PLANNER</small><h3>BLOSSOM</h3><p>Making “I have an idea” sound a lot like “I have a plan.”</p></div><span class="squad-arrow">↗</span></div></button>
+        <button class="squad-card squad-blue" data-character="bubbles" type="button"><div class="squad-meta"><span>PLAYER 02</span><span>◆ AUTOMATION</span></div><img src="./assets/images/bubbles.webp" loading="lazy" alt="Bubbles-inspired blue AI automation specialist"/><div class="squad-bot"><div><small>THE WORKFLOW WIZARD</small><h3>BUBBLES</h3><p>Turning a thousand tiny tasks into one beautiful system.</p></div><span class="squad-arrow">↗</span></div></button>
+        <button class="squad-card squad-green" data-character="buttercup" type="button"><div class="squad-meta"><span>PLAYER 03</span><span>✳ GROWTH</span></div><img src="./assets/images/buttercup.webp" loading="lazy" alt="Buttercup-inspired green cybernetic growth specialist"/><div class="squad-bot"><div><small>THE GROWTH ENGINE</small><h3>BUTTERCUP</h3><p>No fluff. Just smarter leads, bolder moves and real traction.</p></div><span class="squad-arrow">↗</span></div></button>
+      </div>
+      <div class="squad-footnote"><span>HOVER. EXPLORE. PICK YOUR PLAYER.</span><span>THEY'RE A LITTLE EXTRA. SO ARE WE.</span></div>
+    </section>
+
+    <section class="method section-padding" id="how-it-works">
+      <div class="section-topline"><span>03 / THE METHOD</span><span>VERY REAL RESULTS. UNREASONABLY GOOD ENERGY.</span></div>
+      <div class="method-layout"><div class="method-heading reveal"><div class="label-chip">HOW WE MAKE IT HAPPEN</div><h2>FROM<br /><span class="gradient-ink">???</span><br />TO <span class="solid-arrow">↗</span>.</h2><p>No confusing buzzword soup. We untangle the problem, build the solution, and measure what matters.</p><a class="btn btn-hot" href="#diagnosis">START YOUR MISSION <span>↗</span></a></div><div class="steps"><div class="step reveal"><span>01</span><div><h3>DROP THE BIG IDEA.</h3><p>Tell us what you're building, what's broken or what's keeping you up at night. “I have no idea where to start” is a valid answer.</p></div><span>↗</span></div><div class="step reveal"><span>02</span><div><h3>WE CONNECT THE DOTS.</h3><p>We map opportunities, prioritize the work and recommend a plan that makes business sense.</p></div><span>↗</span></div><div class="step reveal"><span>03</span><div><h3>MAKE THE MACHINES WORK.</h3><p>Strategy meets execution: systems, automations, websites, campaigns and real operational improvements.</p></div><span>↗</span></div><div class="step reveal"><span>04</span><div><h3>LEVEL UP. REPEAT.</h3><p>Track outcomes, improve what's working and build toward the next business milestone.</p></div><span>↗</span></div></div></div>
+    </section>
+
+    <section class="possibilities section-padding reveal"><div class="section-topline"><span>04 / SOME POSSIBLE MISSIONS</span><span>NOT CASE STUDIES. YOUR NEXT CHAPTER, MAYBE.</span></div><h2>WHAT COULD<br />WE <span class="gradient-ink">UNLOCK?</span></h2><div class="possibility-grid"><div class="possibility"><span>↗ 001</span><h3>THE WEBSITE THAT SELLS WHILE YOU SLEEP.</h3><p>Better positioning, conversion journeys and automated inquiry handling.</p></div><div class="possibility"><span>↗ 002</span><h3>THE SALES PIPELINE THAT NEVER FORGETS.</h3><p>Qualified prospect lists, thoughtful outreach and timely follow-ups.</p></div><div class="possibility"><span>↗ 003</span><h3>THE TEAMMATE THAT'S ACTUALLY AN AI AGENT.</h3><p>Assistants that handle admin, triage requests and move work forward.</p></div></div></section>
+
+    <section class="diagnosis section-padding" id="diagnosis"><div class="diagnosis-orb"></div><div class="section-topline"><span>05 / IT'S YOUR TURN</span><span>INITIATE BUSINESS MODE</span></div><div class="diagnosis-layout"><div class="diagnosis-copy reveal"><div class="label-chip">NO PERFECT BRIEF REQUIRED</div><h2>TELL US<br />YOUR <span class="gradient-ink">WILD</span><br />IDEA.</h2><p>Business already running? Just starting? Totally stuck? Give us the unfiltered version. We'll help you find a starting point.</p><div class="diagnosis-quote">“I DON'T EVEN KNOW WHAT I NEED YET.” <span>← PERFECT. START THERE.</span></div><div class="mini-squad"><img src="./assets/images/blossom.webp" alt=""/><img src="./assets/images/bubbles.webp" alt=""/><img src="./assets/images/buttercup.webp" alt=""/><span>ALL THREE ON YOUR SIDE.</span></div></div>
+      <div class="diagnosis-panel" id="wizard" aria-label="Business inquiry wizard">
+        <div class="wizard-top"><span>YOUR NEXT MOVE <span class="wizard-top-star">✳</span></span><span id="wizard-progress-text">STEP 01 / 04</span></div>
+        <div class="wizard-progress"><span id="wizard-progress-fill"></span></div>
+        <form id="diagnosis-form" novalidate>
+          <div class="wizard-step active" data-step="0"><div class="wizard-kicker">LET'S FIND YOUR LANE</div><h3>What brings you<br />into our universe?</h3><p>Choose as many as you like.</p><div class="choice-grid" id="goal-choices"><label><input type="checkbox" name="goals" value="strategy"/><span class="choice-icon">◈</span><span>I'm starting something</span><b>↗</b></label><label><input type="checkbox" name="goals" value="automation"/><span class="choice-icon">⌘</span><span>I want AI / automation</span><b>↗</b></label><label><input type="checkbox" name="goals" value="growth"/><span class="choice-icon">↗</span><span>I need customers / sales</span><b>↗</b></label><label><input type="checkbox" name="goals" value="digital"/><span class="choice-icon">{ }</span><span>I need a site / product</span><b>↗</b></label><label class="choice-wide"><input type="checkbox" name="goals" value="unsure"/><span class="choice-icon">?</span><span>Honestly, help me figure it out</span><b>↗</b></label></div></div>
+          <div class="wizard-step" data-step="1"><div class="wizard-kicker">THE BIG PICTURE</div><h3>Give us the<br />real story.</h3><p>What's happening, what's missing, or what would you love to change?</p><label class="field-label" for="challenge">YOUR IDEA / CHALLENGE</label><textarea id="challenge" name="challenge" rows="5" maxlength="1800" placeholder="We have a business, but leads keep falling through the cracks..." required></textarea><div class="textarea-hint">NO JARGON REQUIRED. NORMAL HUMAN WORDS PREFERRED.</div></div>
+          <div class="wizard-step" data-step="2"><div class="wizard-kicker">SET THE SCENE</div><h3>How soon are<br />we making moves?</h3><label class="field-label" for="timeline">TIMELINE</label><select name="timeline" id="timeline"><option value="Just exploring">I'm just exploring</option><option value="This month">Let's get moving this month</option><option value="Next 1–3 months">Next 1–3 months</option><option value="As soon as possible">Yesterday would be great</option></select><label class="field-label" for="stage">YOUR BUSINESS STAGE</label><select name="stage" id="stage"><option value="Idea stage">Just an idea</option><option value="New business">New business / launching</option><option value="Operating business">Already operating</option><option value="Established and scaling">Established and scaling</option></select><label class="field-label" for="next-action">WHAT WOULD YOU LIKE NEXT?</label><select name="nextAction" id="next-action"><option value="Business diagnosis">Help diagnose my business</option><option value="Book a consultation">Book a consultation</option><option value="Request a proposal">Request a proposal</option><option value="General inquiry">Just get in touch</option></select></div>
+          <div class="wizard-step" data-step="3"><div class="wizard-kicker">ONE LAST THING</div><h3>Who are we<br />building with?</h3><p>Tell us how to reach you. No spam, no weird stuff.</p><div class="field-pair"><div><label class="field-label" for="visitor-name">YOUR NAME *</label><input id="visitor-name" name="name" type="text" autocomplete="name" placeholder="Name" required/></div><div><label class="field-label" for="visitor-email">EMAIL ADDRESS *</label><input id="visitor-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required/></div></div><label class="field-label" for="company-name">COMPANY / PROJECT (OPTIONAL)</label><input id="company-name" name="company" placeholder="Your next big thing"/><label class="consent"><input type="checkbox" name="consent" id="consent" required/> <span>I agree to have these details used to respond to my inquiry.</span></label></div>
+          <div class="wizard-bottom"><button class="wizard-back" type="button" id="wizard-back" disabled>← BACK</button><span id="wizard-error" role="alert"></span><button class="btn btn-hot wizard-next" id="wizard-next" type="button">CONTINUE <span>↗</span></button></div>
+        </form>
+        <div id="result-screen" class="result-screen" hidden><div class="result-spark">✳</div><div class="wizard-kicker">DIAGNOSIS PREVIEW COMPLETE</div><h3 id="result-title">READY TO LEVEL UP?</h3><p id="result-description"></p><div id="result-tags" class="result-tags"></div><p class="result-notice" id="result-notice"></p><div class="result-actions"><button type="button" class="btn btn-hot" id="result-download">DOWNLOAD MY BRIEF ↓</button><button type="button" class="btn btn-outline" id="result-copy">COPY SUMMARY ↗</button><button type="button" class="btn btn-outline" id="result-email" hidden>OPEN EMAIL DRAFT ↗</button><a id="result-book" class="btn btn-outline" hidden target="_blank" rel="noreferrer">BOOK A CALL ↗</a></div><button type="button" class="reset-link" id="wizard-reset">START ANOTHER MISSION →</button></div>
+      </div>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="footer-top"><a class="footer-wordmark" href="#top">POWERPUFF<br /><span>GURLS.</span></a><div><p>GOT AN IDEA TOO BIG<br />FOR THE GROUP CHAT?</p><a href="#diagnosis">LET'S MAKE SOMETHING HAPPEN <span>↗</span></a></div></div><div class="footer-bottom"><span>© <span id="year"></span> POWERPUFFGURLS / EXPERIMENTAL CONSULTANCY</span><span>MADE FOR THE CURIOUS. BUILT FOR THE BOLD.</span><a href="#top">BACK TO THE TOP ↑</a></div><p class="legal-note">Experimental concept website. Mascot styling and brand identity must be reviewed for intellectual-property rights before commercial launch. Illustrative services do not represent client case studies.</p></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./three-stage.js"></script>
+</body>
+</html>
