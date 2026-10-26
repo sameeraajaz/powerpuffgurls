@@ -3,4 +3,5 @@ Upload the entire extracted package to the existing Vercel project.
 Confirm app.js and all three assets/models/*.glb requests return HTTP 200.
 Confirm actual 3D characters render; console logs alone are insufficient.
 Switch Strategy, Automation and Growth and confirm the matching model.
+Confirm Bubbles is not frozen: her model lists all seven clips and she can wave, fly, land, and jump.
 Test mobile, reduced motion and sound toggle.

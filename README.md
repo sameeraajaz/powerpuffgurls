@@ -2,7 +2,7 @@
 
 Brand: PowerpuffGurls / powerpuffgurls.com.
 
-This package retains the supplied Blossom and Buttercup GLBs and the original Bubbles GLB.
+This package retains the supplied Blossom and Buttercup GLBs. Bubbles is the full seven-clip model (Running, Walking, Dive_Down_and_Land_2, Idle_5, Jump_Rope, Leap_of_Faith, Wave_One_Hand).
 
 Fixes:
 - Three.js and GLTFLoader are bundled inside app.js. No CDN, import map, missing characters.js request, or npm build is required for deployment.
@@ -10,6 +10,7 @@ Fixes:
 - Constrain headline grid sizing so the character stage remains within the viewport.
 - Removed unrelated static character illustrations. If WebGL is unavailable, a Canvas2D software rasterizer renders the same GLB meshes, skeleton poses and embedded textures. This fallback has simpler lighting and a lower frame rate than the GPU renderer.
 - Reduced motion keeps the 3D models visible.
+- Bubbles no longer freezes on a two-clip file. Each character crossfades through a superhero entrance, a staggered showcase (flight, landing, jump, wave, run), and scroll, role, and click poses, then returns to Idle_5.
 
 Deployment:
 Upload ALL extracted files and the assets folder to the existing Vercel project, replacing the previous deployment. The output directory is the folder containing index.html. No build command is required. The same contents work in public_html on static hosting.
