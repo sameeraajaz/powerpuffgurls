@@ -3887,6 +3887,10 @@ function slot(el,nx,ny){
   if(box.width<2&&box.height<2)return {x:nx,y:ny};
   return {x:(box.left+box.width*nx)/Math.max(1,innerWidth),y:(box.top+box.height*ny)/Math.max(1,innerHeight)};
 }
+function place(el,nx,ny,scale){
+  const p=slot(el,nx,ny);
+  return {x:Math.min(.985,Math.max(.015,p.x)),y:Math.min(.9,Math.max(.12,p.y)),scale};
+}
 function layoutFor(id){
   const compact=innerWidth<760;
   const stage=document.getElementById('hero-stage');
@@ -3897,52 +3901,60 @@ function layoutFor(id){
   const intro=document.querySelector('.diagnostic-intro');
   const shell=document.querySelector('.diagnostic-shell');
   const consult=document.getElementById('consult');
+  const cards=document.querySelectorAll('#truth .truth-card');
   if(id==='top')return {
-    strategy:{...slot(stage,.22,compact?0.7:0.62),scale:compact?0.72:1},
-    systems:{...slot(stage,.5,compact?0.74:0.66),scale:compact?0.72:1},
-    growth:{...slot(stage,.78,compact?0.7:0.62),scale:compact?0.72:1}
+    strategy:place(stage,.22,compact?.72:.64,compact?.72:1),
+    systems:place(stage,.5,compact?.76:.68,compact?.72:1),
+    growth:place(stage,.78,compact?.72:.64,compact?.72:1)
   };
   if(id==='truth')return {
-    strategy:{...slot(truth,.9,.3),scale:compact?0.46:0.72},
-    systems:{...slot(truth,.07,.8),scale:compact?0.4:0.5},
-    growth:{...slot(truth,.93,.8),scale:compact?0.4:0.5}
+    strategy:place(cards[2]||truth,.82,-.9,compact?.4:.56),
+    systems:place(cards[0]||truth,-.45,.72,compact?.32:.42),
+    growth:place(cards[2]||truth,1.45,.72,compact?.32:.42)
   };
   if(id==='missions'){
     const companions=ROLES.filter(role=>role!==f);
     const out={};
-    out[f]={...slot(box,.5,.64),scale:compact?0.78:0.96};
-    out[companions[0]]={...slot(visual,.16,.2),scale:.4};
-    out[companions[1]]={...slot(visual,.84,.2),scale:.4};
+    out[f]=place(box,.5,.7,compact?.72:.9);
+    out[companions[0]]=place(visual,.18,.16,compact?.32:.38);
+    out[companions[1]]=place(visual,.82,.16,compact?.32:.38);
     return out;
   }
   if(id==='method'){
     const out={};
-    ROLES.forEach((role,index)=>{out[role]={...slot(visuals[index]||document.getElementById('method'),.5,.42),scale:compact?0.46:0.64}});
+    ROLES.forEach((role,index)=>{out[role]=place(visuals[index]||document.getElementById('method'),.5,.84,compact?.4:.5)});
     return out;
   }
-  let x=.42,yy=.58;
-  if(intro&&shell){const a=intro.getBoundingClientRect(),b=shell.getBoundingClientRect();x=((a.right+b.left)/2)/Math.max(1,innerWidth);yy=(a.top+a.height*.62)/Math.max(1,innerHeight)}
+  let gap=slot(intro,.92,.58);
+  if(intro&&shell){const a=intro.getBoundingClientRect(),b=shell.getBoundingClientRect();gap={x:((a.right+Math.min(b.left,a.right+140))/2)/Math.max(1,innerWidth),y:(a.top+a.height*.58)/Math.max(1,innerHeight)}}
   const companions=ROLES.filter(role=>role!==f);
   const out={};
-  out[f]={x,y:yy,scale:compact?0.62:0.86};
-  out[companions[0]]={...slot(consult,.08,.88),scale:.36};
-  out[companions[1]]={...slot(consult,.92,.88),scale:.36};
+  out[f]=place({getBoundingClientRect:()=>({left:gap.x*innerWidth,top:gap.y*innerHeight,width:2,height:2})},0,0,compact?.58:.74);
+  out[companions[0]]=place(consult,.06,.78,.34);
+  out[companions[1]]=place(consult,.94,.78,.34);
   return out;
 }
 function sectionBlend(){
-  const focus=scrollY+innerHeight*.46;
-  const anchors=SECTIONS.map(id=>{const el=document.getElementById(id);const box=el?el.getBoundingClientRect():{top:0,height:innerHeight};return {id,doc:box.top+scrollY+box.height*.42}});
-  let index=0;
-  while(index<anchors.length-1&&focus>anchors[index+1].doc)index++;
-  const span=Math.max(1,(anchors[Math.min(index+1,anchors.length-1)].doc)-(anchors[index].doc));
-  let raw=(focus-anchors[index].doc)/span;
-  raw=Math.min(1,Math.max(0,raw));
-  if(index>=anchors.length-1)raw=0;
-  const smooth=raw*raw*(3-2*raw);
-  const from=anchors[index].id;
-  const to=anchors[Math.min(index+1,anchors.length-1)].id;
-  const dominant=smooth<.5?from:to;
-  return {from,to,smooth,dominant};
+  const bands=SECTIONS.map(id=>{
+    const el=document.getElementById(id);
+    const box=el?el.getBoundingClientRect():{top:innerHeight,bottom:innerHeight,height:0};
+    const vis=Math.max(0,Math.min(box.bottom,innerHeight)-Math.max(box.top,0));
+    return {id,top:box.top,vis};
+  });
+  if(bands.every(b=>b.vis<24)){
+    const mid=innerHeight*.5;
+    let nearest=bands[0],dist=1e9;
+    for(const b of bands){const el=document.getElementById(b.id);const box=el.getBoundingClientRect();const d=Math.abs((box.top+box.bottom)/2-mid);if(d<dist){dist=d;nearest=b}}
+    return {from:nearest.id,to:nearest.id,smooth:0,dominant:nearest.id};
+  }
+  const ranked=bands.slice().sort((a,b)=>b.vis-a.vis||a.top-b.top);
+  const best=ranked[0],second=ranked[1];
+  if(!second||second.vis<48||second.id===best.id)return {from:best.id,to:best.id,smooth:0,dominant:best.id};
+  const earlier=best.top<=second.top?best:second;
+  const later=earlier===best?second:best;
+  const share=later.vis/(best.vis+second.vis);
+  const smooth=share*share*(3-2*share);
+  return {from:earlier.id,to:later.id,smooth,dominant:smooth<.5?earlier.id:later.id};
 }
 function reactToSection(id){
   if(p.matches)return;
