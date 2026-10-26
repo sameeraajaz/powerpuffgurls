@@ -4,4 +4,5 @@ Confirm app.js and all three assets/models/*.glb requests return HTTP 200.
 Confirm actual 3D characters render; console logs alone are insufficient.
 Switch Strategy, Automation and Growth and confirm the matching model.
 Confirm Bubbles is not frozen: her model lists all seven clips and she can wave, fly, land, and jump.
+Confirm the three characters stay dark and compact and travel from the hero through the problem, missions, method, and diagnostic sections.
 Test mobile, reduced motion and sound toggle.
