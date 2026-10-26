@@ -3889,7 +3889,11 @@ function slot(el,nx,ny){
 }
 function place(el,nx,ny,scale){
   const p=slot(el,nx,ny);
-  return {x:Math.min(.985,Math.max(.015,p.x)),y:Math.min(.9,Math.max(.12,p.y)),scale};
+  const x=Math.min(.985,Math.max(.015,p.x));
+  // On a phone the page sections are taller than the screen. Clamping y into
+  // the viewport pins characters over headings. Follow the real box instead.
+  const y=innerWidth<950?Math.min(1.85,Math.max(-.85,p.y)):Math.min(.9,Math.max(.12,p.y));
+  return {x,y,scale};
 }
 function layoutFor(id){
   const compact=innerWidth<760;
@@ -3902,57 +3906,81 @@ function layoutFor(id){
   const shell=document.querySelector('.diagnostic-shell');
   const consult=document.getElementById('consult');
   const cards=document.querySelectorAll('#truth .truth-card');
-  if(id==='top')return {
-    strategy:place(stage,.22,compact?.72:.64,compact?.72:1),
-    systems:place(stage,.5,compact?.76:.68,compact?.72:1),
-    growth:place(stage,.78,compact?.72:.64,compact?.72:1)
-  };
-  if(id==='truth')return {
-    strategy:place(cards[2]||truth,.82,-.9,compact?.4:.56),
-    systems:place(cards[0]||truth,-.45,.72,compact?.32:.42),
-    growth:place(cards[2]||truth,1.45,.72,compact?.32:.42)
-  };
+  if(id==='top'){
+    if(compact)return {strategy:place(stage,.21,.74,.62),systems:place(stage,.5,.77,.62),growth:place(stage,.79,.74,.62)};
+    return {strategy:place(stage,.22,.64,1),systems:place(stage,.5,.68,1),growth:place(stage,.78,.64,1)};
+  }
+  if(id==='truth'){
+    if(compact)return {strategy:place(cards[0]||truth,.82,.24,.34),systems:place(cards[1]||truth,.82,.24,.34),growth:place(cards[2]||truth,.82,.24,.34)};
+    return {strategy:place(cards[2]||truth,.82,-.9,.56),systems:place(cards[0]||truth,-.45,.72,.42),growth:place(cards[2]||truth,1.45,.72,.42)};
+  }
   if(id==='missions'){
     const companions=ROLES.filter(role=>role!==f);
     const out={};
-    out[f]=place(box,.5,.7,compact?.72:.9);
-    out[companions[0]]=place(visual,.18,.16,compact?.32:.38);
-    out[companions[1]]=place(visual,.82,.16,compact?.32:.38);
+    if(compact){
+      out[f]=place(box,.5,.76,.68);
+      out[companions[0]]=place(box,.2,.58,.34);
+      out[companions[1]]=place(box,.8,.58,.34);
+    }else{
+      out[f]=place(box,.5,.7,.9);
+      out[companions[0]]=place(visual,.18,.16,.38);
+      out[companions[1]]=place(visual,.82,.16,.38);
+    }
     return out;
   }
   if(id==='method'){
     const out={};
-    ROLES.forEach((role,index)=>{out[role]=place(visuals[index]||document.getElementById('method'),.5,.84,compact?.4:.5)});
+    ROLES.forEach((role,index)=>{
+      const host=visuals[index]||document.getElementById('method');
+      out[role]=compact?place(host,.78,.76,.42):place(host,.5,.84,.5);
+    });
+    return out;
+  }
+  const companions=ROLES.filter(role=>role!==f);
+  const out={};
+  if(compact){
+    out[f]=place(intro||consult,.84,.32,.42);
+    out[companions[0]]=place(intro||consult,.66,.28,.24);
+    out[companions[1]]=place(intro||consult,.94,.28,.24);
     return out;
   }
   let gap=slot(intro,.92,.58);
   if(intro&&shell){const a=intro.getBoundingClientRect(),b=shell.getBoundingClientRect();gap={x:((a.right+Math.min(b.left,a.right+140))/2)/Math.max(1,innerWidth),y:(a.top+a.height*.58)/Math.max(1,innerHeight)}}
-  const companions=ROLES.filter(role=>role!==f);
-  const out={};
-  out[f]=place({getBoundingClientRect:()=>({left:gap.x*innerWidth,top:gap.y*innerHeight,width:2,height:2})},0,0,compact?.58:.74);
+  out[f]=place({getBoundingClientRect:()=>({left:gap.x*innerWidth,top:gap.y*innerHeight,width:2,height:2})},0,0,.74);
   out[companions[0]]=place(consult,.06,.78,.34);
   out[companions[1]]=place(consult,.94,.78,.34);
   return out;
 }
+function anchorEl(id){
+  if(id==='top')return document.getElementById('hero-stage');
+  if(id==='truth')return document.querySelector('#truth .truth-grid');
+  if(id==='missions')return document.getElementById('console-stage');
+  if(id==='method')return document.querySelector('#method .method-grid');
+  return document.getElementById('consult');
+}
 function sectionBlend(){
+  const narrow=innerWidth<950;
   const bands=SECTIONS.map(id=>{
-    const el=document.getElementById(id);
+    const el=(narrow&&anchorEl(id))||document.getElementById(id);
     const box=el?el.getBoundingClientRect():{top:innerHeight,bottom:innerHeight,height:0};
     const vis=Math.max(0,Math.min(box.bottom,innerHeight)-Math.max(box.top,0));
-    return {id,top:box.top,vis};
+    const span=Math.max(1,Math.min(box.height||innerHeight,innerHeight));
+    return {id,top:box.top,vis,score:narrow?vis/span:vis};
   });
   if(bands.every(b=>b.vis<24)){
     const mid=innerHeight*.5;
     let nearest=bands[0],dist=1e9;
-    for(const b of bands){const el=document.getElementById(b.id);const box=el.getBoundingClientRect();const d=Math.abs((box.top+box.bottom)/2-mid);if(d<dist){dist=d;nearest=b}}
+    for(const b of bands){const el=(narrow&&anchorEl(b.id))||document.getElementById(b.id);const box=el?el.getBoundingClientRect():{top:0,bottom:0};const d=Math.abs((box.top+box.bottom)/2-mid);if(d<dist){dist=d;nearest=b}}
     return {from:nearest.id,to:nearest.id,smooth:0,dominant:nearest.id};
   }
-  const ranked=bands.slice().sort((a,b)=>b.vis-a.vis||a.top-b.top);
+  const ranked=bands.slice().sort((a,b)=>b.score-a.score||a.top-b.top);
   const best=ranked[0],second=ranked[1];
-  if(!second||second.vis<48||second.id===best.id)return {from:best.id,to:best.id,smooth:0,dominant:best.id};
+  // A stage that still fills most of its box keeps the squad. That stops the
+  // hero cast leaving #hero-stage while the orb is still on screen.
+  if(!second||second.score<(narrow?0.34:48)||second.id===best.id||(narrow&&best.score>=.55))return {from:best.id,to:best.id,smooth:0,dominant:best.id};
   const earlier=best.top<=second.top?best:second;
   const later=earlier===best?second:best;
-  const share=later.vis/(best.vis+second.vis);
+  const share=later.score/((earlier.score+later.score)||1);
   const smooth=share*share*(3-2*share);
   return {from:earlier.id,to:later.id,smooth,dominant:smooth<.5?earlier.id:later.id};
 }
