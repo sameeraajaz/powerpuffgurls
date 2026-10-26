@@ -1,67 +1,65 @@
-# PowerpuffGurls — Cinematic Website V4 (Review Build)
+# THE GURLS — The Possible Department (V3)
 
-This is a **separate V4 release**; it does not overwrite the V3 project or your Cursor workspace.
+Static, deployable website for the experimental PowerpuffGurls.com business consultancy project.
 
-## What's intentionally different
+## What changed
 
-- Characters exist in one **full-viewport, transparent, persistent 3D scene**, not a mini-panel or bottom-right widget.
-- The public **Wave / Fly / Land / Run / Bounce control strip is removed**.
-- An editorial, dark-neon layout uses an oversized full-body 3D cast in the hero, a live three-character squad section, and directed moments in strategy, method and consultation sections.
-- Scroll determines scene positions and continuous flight arcs. Character selections, hover proximity and section entrances trigger animations.
-- A rail on the right navigates between major sections. The top gradient strip shows reading progress.
-- Sound is opt-in. There are no character voices.
-- Existing business inquiry wizard and non-AI rule-based diagnosis remain. **No production lead endpoint configured by default.**
+- New client-facing positioning: **Your website is live. Is your business?**
+- Clear consulting specialties: Strategy / AI & automation / Lead generation & growth.
+- Intelligent, four-step rules-based business discovery with a personalized, copyable/downloadable next-move brief.
+- The 3D characters are the storytelling interface, not a 3D viewer. No orbital camera, material sliders, file inspectors or software-like model controls.
+- Bubbles stays from the original Meshy rig. Blossom and Buttercup are replaced with the newly supplied Cyber rigs.
+- Models optimized for web: about 12.2 MB total instead of approximately 69.6 MB in source. Original uploads are preserved separately.
+- Character animation: Blossom has Idle_5, Walking, Running, Jump_Rope and Dive_Down_and_Land_2; Buttercup additionally has Leap_of_Faith; Bubbles has Walking and Running. The website adds procedural idle floating, cursor tracking and transitions; it does **not** pretend to have natural facial lip sync or new authored animation clips.
+- Web Audio API sound effects, muted by default, with a visible Sound On/Off control. No character voices.
+- Desktop/mobile layout, scroll reveal, specialty transitions, purpose-led call-to-action flow.
 
-## The 3D files
+## Quick deployment
 
-The web-ready assets in `assets/models` were produced from your updated Meshy Mixamo GLBs and have the same vertex counts, mesh bounds, skinning data, joints and named clips. Textures have been reduced from 4096px to 2304px for loading efficiency, **not remeshed**.
+### Vercel
 
-Available clips:
-`Running`, `Walking`, `Dive_Down_and_Land_2`, `Jump_Rope`, `Leap_of_Faith`, `Wave_One_Hand`.
+1. Upload the contents of this ZIP as a static website using Vercel Drop, or put this directory in a Git repository and import that repository to Vercel.
+2. No npm install or build command is needed for the supplied deployment package. The root contains `index.html`.
+3. The deployment should serve `assets/models/*.glb` with a binary Content-Type (ideally `model/gltf-binary`).
+4. Test `<your-site>/?debug3d=1` and inspect the browser console for `[The Gurls 3D]` messages. Verify `assets/models/blossom.glb`, `bubbles.glb`, `buttercup.glb` return HTTP 200.
 
-The first sampled Wave frame is used as a stable resting pose instead of exposing the bind pose. Extra vertical drift, floating and flight path movement is controlled by the website. During a scene change characters transition along the viewport without reloading their GLBs. Landing and gestures are approximate; clips do not have separate clean Idle/FlyLoop in the upload.
+### cPanel / conventional file manager
 
-**Important:** This does not repair any bad underlying image-to-3D geometry or animation skin weights. To diagnose a character that still bends strangely, view the Meshy model in 360 degrees both *unrigged and rigged*, then preview every clip. If deformation exists there, fix/re-rig the source character before expecting browser rendering to solve it.
+Extract the ZIP and upload **the ZIP contents** (not the top-level folder) into `public_html`. Keep relative asset paths unchanged. The files do not require a Node.js server. Always test through HTTPS, not `file://`.
 
-## Vercel — recommended
+## Business integration
 
-1. Upload the V4 project folder (or its ZIP) as a new Vercel project, **not over the current V3 project** until inspected.
-2. Framework preset: `Other` (plain static with build step).
-3. Build command: `npm run build`.
-4. Output directory: `dist`.
-5. Vercel installs `three@0.180.0`, and build script copies it locally into `dist/vendor`, along with all GLBs and site assets.
-6. Open the staging link and test desktop and mobile. Sound must be explicitly enabled by the visitor.
+The page is a real static interactive prototype. It does **not** yet connect to a private AI model, send inquiries, or make calendar reservations by itself.
 
-The project includes `vercel.json` with the build command and output directory; don't configure conflicting manual settings.
+Edit `config.js`:
 
-## Conventional static hosting / file manager
-
-On a computer with Node.js installed, open the extracted V4 project folder:
-
-```powershell
-npm install
-npm run build
+```js
+window.GURLS_CONFIG = {
+  inquiryEndpoint: '', // Your HTTPS POST JSON endpoint
+  bookingUrl: '',     // Your scheduling URL
+  contactEmail: ''    // Optional email-draft destination
+};
 ```
 
-Upload **the contents of `dist`** to `public_html`. Do not upload `node_modules`. The site needs HTTPS for dependable browser support.
+- When `inquiryEndpoint` is provided, visitors can choose "Send my inquiry" after they create their brief. This sends JSON to the configured endpoint. The endpoint must validate and store/forward inquiries, handle spam protection, and support CORS if cross-origin.
+- `bookingUrl` reveals a booking link on the results page.
+- `contactEmail` reveals an email-draft action, which opens the visitor's email client rather than sending mail server-side.
+- With no endpoint set, the site explicitly says **Preview mode** and allows visitors to **copy** or **save** their summary. It does not claim to have sent anything.
+- Do not put API keys, service secrets, SMTP credentials or tokens in `config.js`; this file is public.
 
-## Review checklist before replacing the live site
+## 3D loading and troubleshooting
 
-- The 3 GLB characters are clearly visible at the hero and physically move through the story as the page scrolls.
-- No lower-right dock or public animation control strip appears.
-- The squad section displays actual interactive 3D characters, not just still photos.
-- Verify Buttercup's shape both when resting and during landing/waving. If she is warped, compare the same clip inside Meshy.
-- Check mouse/scroll on desktop and positioning on a real mobile device.
-- Check audio off by default, then enable SFX and test landing/hover/wave sounds.
-- Try the business diagnosis form in demonstration mode. **Contact information is not submitted to a real endpoint unless `config.js` is configured.**
-- Open `?debug3d=1` if the WebGL module or models do not appear; inspect developer console.
+The GLBs are self-hosted, but the Three.js and GLTFLoader runtime is loaded from jsDelivr, with an esm.sh backup. An internet connection and permission to access one of those CDNs are required for 3D. The site retains static fallback character artwork if 3D fails; the business flows remain operational. To make the site fully CDN-independent later, bundle the Three.js library and GLTFLoader locally with a production bundler (e.g. Vite).
 
-## Verification and limitations
+Load failures are described in browser developer tools. The query param `?debug3d=1` shows a minimal debug overlay; ordinary visitors do not see it.
 
-- Verified: JavaScript syntax, GLB JSON/geometry/skins/animations, site element IDs and asset paths.
-- Not verified: live WebGL visual playback in the tool environment; its browser blocks local navigation. Test on a staging deployment before adopting this design.
-- This is a review candidate, **not a production launch**. It should not be represented as tested or visually approved.
+## Preview / release validation
 
-## Intellectual-property note
+- GLB internal structure, embedded JPEG textures and buffer bounds validated for all three models.
+- `app.js` and `characters.js` passed JavaScript syntax checks.
+- Desktop screenshot and the complete diagnostic result were rendered and inspected using browser automation with inlined assets (the 3D runtime itself could not be exercised in the offline browser).
+- The mobile hero layout was visually checked. Final 3D rendering, audio playback, and all interactions still need a live-deployment smoke test.
 
-These are recognizable adaptations of established media characters. Commercial launch should use an independently designed set of mascots and reviewed brand identity.
+## Brand/IP note
+
+The uploaded models are stylized references to established cartoon characters. Commercial public deployment of recognizable characters or a confusingly similar franchise name may require licenses or original redesigns. The frontend branding here uses "The Gurls" without an original franchise logo.

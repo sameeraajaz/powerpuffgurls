@@ -1,8 +1,6 @@
-/* Configure these values before collecting live customer inquiries. */
-window.PPG_CONFIG = {
-  brand: 'Powerpuff Gurls',
-  leadEndpoint: '', // Secure HTTPS endpoint that accepts POST with JSON; left blank for local demo mode.
-  contactEmail: '', // e.g. 'hello@yourverifieddomain.com' (optional)
-  bookingUrl: '', // e.g. your Calendly or other booking link (optional)
-  allowDemoStorage: true
+/* Production integration: populate these only when real destinations exist. */
+window.GURLS_CONFIG = {
+  inquiryEndpoint: '', /* POST JSON endpoint, e.g. a serverless form handler */
+  bookingUrl: '',     /* scheduling page URL */
+  contactEmail: ''    /* recipient of the optional email draft */
 };
