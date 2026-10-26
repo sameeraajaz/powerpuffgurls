@@ -1,11 +1,6 @@
-POWERPUFFGURLS / V3 DEPLOYMENT CHECKLIST
-
-[ ] Upload ZIP contents to Vercel Drop or public_html.
-[ ] Open HTTPS URL and confirm header, hero and consultation render.
-[ ] Test /assets/models/blossom.glb, bubbles.glb, buttercup.glb (all HTTP 200).
-[ ] Open ?debug3d=1, confirm all three model load messages.
-[ ] Scroll to specialties; switch Strategy -> Automation -> Growth; verify correct GLB appears.
-[ ] Toggle sound on, click a specialty and complete the questionnaire to hear effects.
-[ ] Test website on mobile and keyboard.
-[ ] Set inquiryEndpoint/bookingUrl/contactEmail in config.js BEFORE claiming lead delivery.
-[ ] Obtain permission or use original character/brand designs for commercial release.
+POWERPUFFGURLS / REPAIRED 3D
+Upload the entire extracted package to the existing Vercel project.
+Confirm app.js and all three assets/models/*.glb requests return HTTP 200.
+Confirm actual 3D characters render; console logs alone are insufficient.
+Switch Strategy, Automation and Growth and confirm the matching model.
+Test mobile, reduced motion and sound toggle.

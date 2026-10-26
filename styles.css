@@ -23,3 +23,12 @@ html{scroll-padding-top:110px}.pre-reveal{opacity:0;transform:translateY(34px);t
 .brand .pink-point{font-size:.72em;letter-spacing:-.035em;}
 @media(max-width:680px){.site-header{gap:8px;padding:0 12px}.site-header .brand{font-size:16px;gap:5px;letter-spacing:-.065em}.site-header .brand-mark{width:22px;min-width:22px;margin-right:-4px}.site-header .sound-toggle{padding:8px 7px;font-size:8px}.site-header .nav-right{gap:7px}.footer .brand{font-size:19px}}
 @media(max-width:380px){.site-header .brand{font-size:14px}.site-header .sound-toggle{padding:8px 5px}.site-header{padding:0 9px}}
+
+/* Keep the 3D stage inside the viewport; long headlines cannot size grid tracks. */
+.hero-inner{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)}
+.hero-left{min-width:0}.hero h1{width:auto;font-size:clamp(48px,4.4vw,83px);overflow-wrap:normal}.h1-last{display:block}.hero h1 em{display:block}
+.hero-right{min-width:0}.hero-stage-caption span:last-child{display:none}
+@media(max-width:950px){.hero-inner{grid-template-columns:minmax(0,1fr)}.hero h1{font-size:clamp(54px,8vw,83px)}.hero h1 em{display:inline}}
+@media(max-width:680px){.hero h1{font-size:clamp(38px,9vw,62px)}}
+
+.model-loading,.model-error{position:absolute;left:8%;right:8%;top:42%;text-align:center;font:13px/1.7 var(--mono);color:var(--blue)}.model-error{z-index:6;padding:20px;border:1px solid #ff68ab66;background:#10111eee;color:var(--ink)}.hero-3d:has(.model-error) .model-loading{display:none}
