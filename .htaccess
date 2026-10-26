@@ -1,2 +1,0 @@
-AddType model/gltf-binary .glb
-AddType text/javascript .js

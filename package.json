@@ -1,8 +1,0 @@
-{
-  "name":"powerpuffgurls-cinematic-v4",
-  "private":true,
-  "version":"4.0.0",
-  "description":"Cinematic multi-character 3D AI consultancy experiment",
-  "scripts":{"build":"node scripts/build.mjs"},
-  "dependencies":{"three":"0.180.0"}
-}
