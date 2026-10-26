@@ -26,13 +26,18 @@ $$('a,button').forEach(el=>el.addEventListener('pointerenter',()=>sound.hover(ac
 $('#menu-toggle')?.addEventListener('click',()=>{const el=$('.nav-links');el.classList.toggle('menu-open');const isOpen=el.classList.contains('menu-open');$('#menu-toggle').setAttribute('aria-expanded',String(isOpen));$('#menu-toggle').textContent=isOpen?'×':'☰'});
 $$('.nav-links a').forEach(el=>el.addEventListener('click',()=>{$('.nav-links').classList.remove('menu-open');$('#menu-toggle').setAttribute('aria-expanded','false');$('#menu-toggle').textContent='☰'}));
 $('#year').textContent=new Date().getFullYear();
-let dockDismissed=false,lastDocScroll=-1;
-function updateScroll(){const y=window.scrollY,body=document.body,limit=Math.max(300,window.innerHeight*.58);$('#progress-bar').style.width=(100*y/Math.max(1,document.documentElement.scrollHeight-window.innerHeight))+'%';body.classList.toggle('docked',y>limit);if(y<=limit){body.classList.remove('dock-hidden');dockDismissed=false}if(dockDismissed && y>limit)body.classList.add('dock-hidden');if(Math.abs(y-lastDocScroll)>5){lastDocScroll=y;window.dispatchEvent(new CustomEvent('ppg-scroll',{detail:{progress:y/Math.max(1,document.documentElement.scrollHeight-window.innerHeight),docked:y>limit}}))}}
+let lastDocScroll=-1;
+function updateScroll(){
+ const y=window.scrollY,extent=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);
+ $('#progress-bar').style.width=(100*y/extent)+'%';
+ if(Math.abs(y-lastDocScroll)>4){lastDocScroll=y;window.dispatchEvent(new CustomEvent('ppg-scroll',{detail:{progress:y/extent,scrollY:y}}));}
+ const current=[...document.querySelectorAll('main>section[id]')].reverse().find(el=>el.getBoundingClientRect().top<window.innerHeight*.58);
+ document.querySelectorAll('[data-rail]').forEach(a=>a.classList.toggle('active',a.dataset.rail===(current?.id||'top')));
+}
 window.addEventListener('scroll',()=>requestAnimationFrame(updateScroll),{passive:true});updateScroll();
-$('#dock-close')?.addEventListener('click',()=>{document.body.classList.add('dock-hidden');dockDismissed=true;notify('Floating squad hidden. They are still on the homepage.')});
 window.addEventListener('pointermove',e=>{const glow=$('#cursor-glow');if(glow)glow.style.transform=`translate(${e.clientX-175}px, ${e.clientY-175}px)`;window.PPG_POINTER={x:e.clientX/window.innerWidth*2-1,y:e.clientY/window.innerHeight*2-1}} ,{passive:true});
-function setCharacter(char,withSound=true){activeCharacter=char;window.PPG_ACTIVE_CHARACTER=char;window.dispatchEvent(new CustomEvent('ppg-character',{detail:{character:char}}));$('#character-status').textContent=charTitles[char];if(withSound)sound.select(char);$$('.squad-card').forEach(el=>el.classList.toggle('squad-selected',el.dataset.character===char))}
-$$('.squad-card').forEach(card=>card.addEventListener('click',()=>{setCharacter(card.dataset.character);const g={blossom:'strategy',bubbles:'automation',buttercup:'growth'}[card.dataset.character];selectGoal(g);$('#diagnosis').scrollIntoView({behavior:'smooth'});notify('Your specialist is selected. Let’s find your next move.')}));
+function setCharacter(char,withSound=true){activeCharacter=char;window.PPG_ACTIVE_CHARACTER=char;window.dispatchEvent(new CustomEvent('ppg-character',{detail:{character:char}}));$('#character-status').textContent=charTitles[char];if(withSound)sound.select(char);$$('.squad-spot').forEach(el=>el.classList.toggle('squad-selected',el.dataset.character===char))}
+$$('.squad-spot').forEach(card=>card.addEventListener('click',()=>{setCharacter(card.dataset.character);const g={blossom:'strategy',bubbles:'automation',buttercup:'growth'}[card.dataset.character];selectGoal(g);$('#diagnosis').scrollIntoView({behavior:'smooth'});notify('Your specialist is selected. Let’s find your next move.')}));
 $$('.cap-card').forEach(card=>card.addEventListener('click',()=>{selectGoal(card.dataset.goal);$('#diagnosis').scrollIntoView({behavior:'smooth'});setCharacter(card.dataset.goal==='automation'?'bubbles':card.dataset.goal==='growth'?'buttercup':'blossom');sound.select(activeCharacter)}));
 window.addEventListener('ppg-model-status',e=>{$('#character-status').textContent=e.detail?.message||charTitles[activeCharacter]});
 const io=new IntersectionObserver(entries=>{entries.forEach(en=>{if(en.isIntersecting)en.target.classList.add('revealed')})},{threshold:.12});$$('.reveal').forEach(el=>io.observe(el));document.body.classList.add('js-ready');

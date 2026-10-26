@@ -1,74 +1,67 @@
-# PowerpuffGurls — Cinematic V3 (3D character director)
+# PowerpuffGurls — Cinematic Website V4 (Review Build)
 
-This is the website code, including three newly supplied rigged GLB models with their **six** animations each. It retains the V2 consultancy and inquiry wizard and adds visitor-controlled and section-driven 3D choreography.
+This is a **separate V4 release**; it does not overwrite the V3 project or your Cursor workspace.
 
-## What actually changed
+## What's intentionally different
 
-- Replaced all three older two-clip GLBs with the updated files supplied on October 26.
-- Kept six clips per model: `Running`, `Walking`, `Dive_Down_and_Land_2`, `Jump_Rope`, `Leap_of_Faith`, `Wave_One_Hand`.
-- Removed **Hips translation tracks** from the clips while optimizing for web. This is intentional: the imported leap and dive animations contain extreme travel values that make models disappear off camera. Bone rotations and posing are preserved. The website now controls in-scene flight and landing trajectories.
-- Web-optimized textures: 2304x2304 JPEG atlases. Combined GLBs approx. 10.5 MB instead of 63+ MB.
-- Generates a static idle pose from the opening keyframe of the `Wave_One_Hand` animation instead of returning to a T-pose. A breathing bob and modest cursor-driven head movement supply continuous life.
-- Buttons for **Wave, Fly, Land, Run, Bounce**, live specialist selection, model raycasting/click selection, section-triggered choreography, subtle particles and halo effects, and opt-in sound cues.
-- The inquiry system remains a **rules-based prototype**, not a live LLM. It does not submit leads until you set a valid endpoint in `config.js`.
+- Characters exist in one **full-viewport, transparent, persistent 3D scene**, not a mini-panel or bottom-right widget.
+- The public **Wave / Fly / Land / Run / Bounce control strip is removed**.
+- An editorial, dark-neon layout uses an oversized full-body 3D cast in the hero, a live three-character squad section, and directed moments in strategy, method and consultation sections.
+- Scroll determines scene positions and continuous flight arcs. Character selections, hover proximity and section entrances trigger animations.
+- A rail on the right navigates between major sections. The top gradient strip shows reading progress.
+- Sound is opt-in. There are no character voices.
+- Existing business inquiry wizard and non-AI rule-based diagnosis remain. **No production lead endpoint configured by default.**
 
-## Deployment (simplest)
+## The 3D files
 
-Extract the ZIP; upload **all contents** of this folder as the site's root, preserving `assets/models` and `assets/images`.
+The web-ready assets in `assets/models` were produced from your updated Meshy Mixamo GLBs and have the same vertex counts, mesh bounds, skinning data, joints and named clips. Textures have been reduced from 4096px to 2304px for loading efficiency, **not remeshed**.
 
-- Vercel Drop: <https://vercel.com/drop> (use the extracted folder or ZIP)
-- Static hosting file manager: upload the extracted contents into `public_html`, and serve the website over **HTTPS**.
-- Local test on Windows (Python installed): `py -m http.server 8000`, then visit `http://localhost:8000`.
-- Do **not** double-click `index.html` under `file://` to test 3D: module imports and model loading need HTTP(S).
+Available clips:
+`Running`, `Walking`, `Dive_Down_and_Land_2`, `Jump_Rope`, `Leap_of_Faith`, `Wave_One_Hand`.
 
-### Make the Three.js engine local (strongly recommended for final deployment)
+The first sampled Wave frame is used as a stable resting pose instead of exposing the bind pose. Extra vertical drift, floating and flight path movement is controlled by the website. During a scene change characters transition along the viewport without reloading their GLBs. Landing and gestures are approximate; clips do not have separate clean Idle/FlyLoop in the upload.
 
-The standalone package references a CDN for Three.js because this build environment cannot fetch npm dependencies. The GLBs, images and business logic are already in the ZIP.
+**Important:** This does not repair any bad underlying image-to-3D geometry or animation skin weights. To diagnose a character that still bends strangely, view the Meshy model in 360 degrees both *unrigged and rigged*, then preview every clip. If deformation exists there, fix/re-rig the source character before expecting browser rendering to solve it.
 
-If you want to eliminate reliance on CDN imports, on your Windows PC, inside the extracted folder:
+## Vercel — recommended
+
+1. Upload the V4 project folder (or its ZIP) as a new Vercel project, **not over the current V3 project** until inspected.
+2. Framework preset: `Other` (plain static with build step).
+3. Build command: `npm run build`.
+4. Output directory: `dist`.
+5. Vercel installs `three@0.180.0`, and build script copies it locally into `dist/vendor`, along with all GLBs and site assets.
+6. Open the staging link and test desktop and mobile. Sound must be explicitly enabled by the visitor.
+
+The project includes `vercel.json` with the build command and output directory; don't configure conflicting manual settings.
+
+## Conventional static hosting / file manager
+
+On a computer with Node.js installed, open the extracted V4 project folder:
 
 ```powershell
 npm install
-npm run vendor:three
+npm run build
 ```
 
-That copies Three.js and GLTFLoader modules into the local `vendor/` directory and automatically updates the import map in `index.html`. **Afterwards** redeploy the *whole folder*, including `vendor/`, using Vercel Drop or File Manager. This is particularly relevant because your Cursor fix already vendored Three.js. If you are merging into Cursor's working project, **retain Cursor's already-local dependency imports** and replace only the model assets and animation controller carefully.
+Upload **the contents of `dist`** to `public_html`. Do not upload `node_modules`. The site needs HTTPS for dependable browser support.
 
-## Action map
+## Review checklist before replacing the live site
 
-| Visitor action | In-site behavior | Source GLB animation |
-|---|---|---|
-| Page ready | Breathing, small floating motion, pointer gaze | Sampled idle pose from `Wave_One_Hand` |
-| Click / hover / wave | Wave action then blend back to idle | `Wave_One_Hand` |
-| Press FLY | Leaping transition, then suspended airborne pose | `Leap_of_Faith` + procedural hovering |
-| Press LAND | Controlled descent with a hero landing pose | `Dive_Down_and_Land_2` |
-| Press RUN | In-place run, then idle | `Running` |
-| Press BOUNCE | Extra motion loop | `Jump_Rope` |
-| Scroll to sections | Specialist activation and contextual motion | Combination above |
+- The 3 GLB characters are clearly visible at the hero and physically move through the story as the page scrolls.
+- No lower-right dock or public animation control strip appears.
+- The squad section displays actual interactive 3D characters, not just still photos.
+- Verify Buttercup's shape both when resting and during landing/waving. If she is warped, compare the same clip inside Meshy.
+- Check mouse/scroll on desktop and positioning on a real mobile device.
+- Check audio off by default, then enable SFX and test landing/hover/wave sounds.
+- Try the business diagnosis form in demonstration mode. **Contact information is not submitted to a real endpoint unless `config.js` is configured.**
+- Open `?debug3d=1` if the WebGL module or models do not appear; inspect developer console.
 
-**Limitation:** The GLBs do not include a named `Idle` or `Superhero Floating` clip. Those behaviors are approximated procedurally from the available animations, and may need further refinement in Blender for production-grade performance.
+## Verification and limitations
 
-## Troubleshooting
+- Verified: JavaScript syntax, GLB JSON/geometry/skins/animations, site element IDs and asset paths.
+- Not verified: live WebGL visual playback in the tool environment; its browser blocks local navigation. Test on a staging deployment before adopting this design.
+- This is a review candidate, **not a production launch**. It should not be represented as tested or visually approved.
 
-Append `?debug3d=1` to your hosted site and open browser DevTools > Console. Check `window.PPG_3D_DEBUG` to see loaded models, six clips per character, and any loading errors.
+## Intellectual-property note
 
-- `/assets/models/*.glb` must return HTTP 200 (not HTML). Case-sensitive host filenames are all lowercase.
-- If the 3D engine is blocked, the page shows static image fallbacks; use the local vendoring procedure above.
-- Ensure browsers support WebGL and GPU acceleration.
-- Sound starts **off**, on purpose; visitor must click the sound toggle.
-- Test desktop and mobile separately, and confirm scroll-triggered animations and character buttons don't obscure the inquiry flow.
-
-## Inquiry backend
-
-Configure `config.js`:
-- `leadEndpoint`: your secure HTTPS POST endpoint for visitor inquiries. Empty = demo/local export only.
-- `bookingUrl`: optional genuine scheduling URL.
-- `contactEmail`: optional legitimate company email for drafting mailto links.
-
-Never place API keys in `config.js` or other front-end files. Do not treat the rules-based diagnosis as a fully trained AI business consultant.
-
-## Scope and caveats
-
-This package was built from the **previous V2 ZIP**, plus the updated Meshy GLBs and the animation fix described from your Cursor screenshot. Your latest Cursor edits live on your PC and were **not** available here, so this isn't a binary copy of those local changes. Back up your Cursor folder before replacing it.
-
-Validation completed: JavaScript syntax checks, GLB structural checks, clip counts, model asset paths, ZIP packaging. A full WebGL browser-rendering regression test was **not available** in this environment; verify on a live staging URL before declaring this production-ready.
+These are recognizable adaptations of established media characters. Commercial launch should use an independently designed set of mascots and reviewed brand identity.

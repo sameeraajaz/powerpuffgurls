@@ -24,46 +24,36 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <nav class="nav" aria-label="Primary navigation">
     <a class="wordmark" href="#top" aria-label="Powerpuff Gurls home"><span class="brand-glyph">✳</span> POWERPUFF<span class="wordmark-alt">GURLS</span></a>
-    <div class="nav-links"><a href="#what-we-do">What we solve</a><a href="#the-squad">The squad</a><a href="#how-it-works">How it works</a></div>
+    <div class="nav-links"><a href="#what-we-do">What we solve</a><a href="#the-squad">The girls</a><a href="#how-it-works">How it works</a></div>
     <div class="nav-actions"><button class="sound-switch" id="sound-toggle" type="button" aria-label="Enable sounds" aria-pressed="false"><span class="sound-icon" aria-hidden="true">◖</span><span id="sound-label">SOUND OFF</span><span class="sound-led"></span></button><a class="nav-cta magnetic" href="#diagnosis">LET'S TALK <span aria-hidden="true">↗</span></a></div>
     <button class="mobile-menu" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
   </nav>
+  <!-- The characters are part of the whole website, not a widget. -->
+  <div class="cinema-world" id="character-world" aria-label="Animated cybernetic consultants">
+    <div class="cinema-aurora" aria-hidden="true"></div>
+    <div class="cinema-portal" aria-hidden="true"></div>
+    <canvas id="character-canvas" aria-label="Cinematic animated three-dimensional characters"></canvas>
+    <div id="stage-fallback" class="cinema-fallback" aria-hidden="true"><img src="./assets/images/bubbles.webp" alt=""/><img src="./assets/images/blossom.webp" alt=""/><img src="./assets/images/buttercup.webp" alt=""/></div>
+    <span class="cinema-status" id="character-status" aria-live="polite">THE SQUAD IS ENTERING...</span>
+  </div>
+  <div class="story-rail" aria-label="Explore the experience">
+    <a href="#top" data-rail="top" aria-label="01 Introduction"><i></i><span>ORIGIN</span></a>
+    <a href="#what-we-do" data-rail="what-we-do" aria-label="02 Services"><i></i><span>THE IDEA</span></a>
+    <a href="#the-squad" data-rail="the-squad" aria-label="03 The squad"><i></i><span>THE SQUAD</span></a>
+    <a href="#how-it-works" data-rail="how-it-works" aria-label="04 How it works"><i></i><span>THE METHOD</span></a>
+    <a href="#diagnosis" data-rail="diagnosis" aria-label="05 Start a consultation"><i></i><span>YOUR TURN</span></a>
+  </div>
   <main id="main">
     <section class="hero" id="top">
       <div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-copy">
-        <div class="eyebrow"><span class="pulse-dot"></span> A NEW KIND OF BUSINESS UNIVERSE <span class="tiny-code">// EST. RIGHT NOW</span></div>
-        <h1>BIG IDEAS.<br /><em>BIG<span class="outline-type">GER</span></em><br /> MOVES<span class="period">.</span></h1>
+        <div class="eyebrow"><span class="pulse-dot"></span> A BUSINESS UNIVERSE WITH A PULSE <span class="tiny-code">// EST. RIGHT NOW</span></div>
+        <h1>MAKE YOUR<br /><em>NEXT MOVE</em><br />LEGENDARY<span class="period">.</span></h1>
         <p class="hero-desc">Got a business idea? A process that needs fixing? A sales pipeline that needs a serious power-up? <strong>You're in the right universe.</strong></p>
         <div class="hero-buttons"><a class="btn btn-hot" href="#diagnosis">FIND YOUR NEXT MOVE <span>↗</span></a><a class="btn btn-outline" href="#what-we-do">EXPLORE THE UNIVERSE <span>↓</span></a></div>
-        <div class="micro-copy"><span class="sparkle">✦</span> NOT YOUR AVERAGE CONSULTANCY <span class="asterisk">*</span> ZERO BORING SLIDE DECK ENERGY</div>
+        <div class="micro-copy"><span class="sparkle">✦</span> THREE MINDS, ONE NEXT MOVE <span class="asterisk">*</span> ZERO BORING SLIDE DECK ENERGY</div>
       </div>
-      <div class="character-world" id="character-world" aria-label="Interactive cybernetic consultants">
-        <div class="portal portal-a"></div><div class="portal portal-b"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div id="stage-fallback" class="stage-fallback" aria-hidden="true">
-          <img class="fallback-char fallback-bubbles" src="./assets/images/bubbles.webp" alt="" />
-          <img class="fallback-char fallback-blossom" src="./assets/images/blossom.webp" alt="" />
-          <img class="fallback-char fallback-buttercup" src="./assets/images/buttercup.webp" alt="" />
-        </div>
-        <canvas id="character-canvas" aria-label="Animated three-dimensional cybernetic characters"></canvas>
-        <span class="floating-code floating-code-one">[ 3 SPECIALISTS ONLINE ]</span><span class="floating-code floating-code-two">// READY WHEN YOU ARE</span>
-        <button class="dock-close" id="dock-close" type="button" title="Hide floating characters" aria-label="Hide floating characters">×</button>
-        <div class="stage-status"><span class="status-symbol">◎</span> <span id="character-status" aria-live="polite">INITIALIZING THE SQUAD...</span></div>
-        <div class="stage-interface" aria-label="Choose a character and trigger animation">
-          <div class="stage-roster" role="group" aria-label="Choose your specialist">
-            <button class="roster-pill" data-stage-character="blossom" aria-label="Select Blossom" aria-pressed="true"><span class="pill-led pink-led"></span> BLOSSOM</button>
-            <button class="roster-pill" data-stage-character="bubbles" aria-label="Select Bubbles" aria-pressed="false"><span class="pill-led blue-led"></span> BUBBLES</button>
-            <button class="roster-pill" data-stage-character="buttercup" aria-label="Select Buttercup" aria-pressed="false"><span class="pill-led green-led"></span> BUTTERCUP</button>
-          </div>
-          <div class="motion-console" role="group" aria-label="Character actions">
-            <button class="motion-chip" data-motion="wave" type="button" aria-pressed="false" title="Give a greeting">✳ WAVE</button>
-            <button class="motion-chip" data-motion="fly" type="button" aria-pressed="false" title="Launch into flight">↗ FLY</button>
-            <button class="motion-chip" data-motion="land" type="button" aria-pressed="false" title="Superhero landing">↘ LAND</button>
-            <button class="motion-chip" data-motion="run" type="button" aria-pressed="false" title="Run in place">⚡ RUN</button>
-            <button class="motion-chip" data-motion="dance" type="button" aria-pressed="false" title="Extra bounce animation">✦ BOUNCE</button>
-          </div>
-        </div>
-      </div>
+      <div class="hero-scene-label"><span>01 // ENTER THE UNIVERSE</span><span>THREE DIGITAL STRATEGISTS. ONE REAL MISSION.</span></div>
       <div class="hero-footer"><span>SCROLL TO ACTIVATE <span class="scroll-arrow">↓</span></span><div class="hero-index">001 / AN EXPERIMENT IN WHAT'S POSSIBLE</div><span>IDEAS → IMPACT</span></div>
     </section>
 
@@ -71,7 +61,7 @@
 
     <section class="intro section-padding reveal" id="what-we-do">
       <div class="section-topline"><span>01 / WE SEE THE BIGGER PICTURE</span><span>YOUR PROBLEM IS OUR STARTING POINT</span></div>
-      <div class="intro-layout"><div><div class="label-chip">NO PLAYBOOK? NO PROBLEM.</div><h2>YOU DON'T NEED<br />ALL THE <span class="gradient-ink">ANSWERS.</span><br />JUST A START.</h2></div><div class="intro-side"><p>Some people have a brilliant idea and no clue where to begin. Others have a business that's ready for its next evolution. <strong>We meet you wherever you are and figure out what actually moves the needle.</strong></p><a class="underlined-link" href="#diagnosis">TELL US WHAT'S ON YOUR MIND <span>↗</span></a></div></div>
+      <div class="intro-layout"><div><div class="label-chip">NO PLAYBOOK? NO PROBLEM.</div><h2>NO MAP?<br /><span class="gradient-ink">GOOD.</span><br />WE MAKE ONE.</h2></div><div class="intro-side"><p>Some people have a brilliant idea and no clue where to begin. Others have a business that's ready for its next evolution. <strong>We meet you wherever you are and figure out what actually moves the needle.</strong></p><a class="underlined-link" href="#diagnosis">TELL US WHAT'S ON YOUR MIND <span>↗</span></a></div></div>
       <div class="capability-grid">
         <button class="cap-card card-pink" type="button" data-goal="strategy"><div class="cap-top"><span>01 — / STRATEGY</span><span>↗</span></div><div class="cap-icon">◈</div><h3>AN IDEA.<br />A GAME PLAN.</h3><p>From “what if?” to “here's exactly what we do next.”</p><div class="cap-tag">BUSINESS STRATEGY</div></button>
         <button class="cap-card card-blue" type="button" data-goal="automation"><div class="cap-top"><span>02 — / AUTOMATION</span><span>↗</span></div><div class="cap-icon">⌘</div><h3>LESS WORK.<br />MORE MAGIC.</h3><p>AI agents and workflows that take the repetitive stuff off your plate.</p><div class="cap-tag">AI & AUTOMATION</div></button>
@@ -83,17 +73,18 @@
     <section class="squad section-padding" id="the-squad">
       <div class="section-topline"><span>02 / THE BRAINS BEHIND THE CHAOS</span><span>SELECT YOUR PLAYER</span></div>
       <div class="squad-header reveal"><div><div class="label-chip">THREE BRAINS. ONE MISSION.</div><h2>MEET YOUR<br /><span class="gradient-ink">UNFAIR</span> ADVANTAGE.</h2></div><p>Different personalities. Different superpowers. One goal: helping your business level up. Pick who you want in your corner.</p></div>
-      <div class="squad-grid">
-        <button class="squad-card squad-pink" data-character="blossom" type="button"><div class="squad-meta"><span>PLAYER 01</span><span>♥ STRATEGY</span></div><img src="./assets/images/blossom.webp" loading="lazy" alt="Blossom-inspired pink cybernetic strategy specialist"/><div class="squad-bot"><div><small>THE MASTER PLANNER</small><h3>BLOSSOM</h3><p>Making “I have an idea” sound a lot like “I have a plan.”</p></div><span class="squad-arrow">↗</span></div></button>
-        <button class="squad-card squad-blue" data-character="bubbles" type="button"><div class="squad-meta"><span>PLAYER 02</span><span>◆ AUTOMATION</span></div><img src="./assets/images/bubbles.webp" loading="lazy" alt="Bubbles-inspired blue AI automation specialist"/><div class="squad-bot"><div><small>THE WORKFLOW WIZARD</small><h3>BUBBLES</h3><p>Turning a thousand tiny tasks into one beautiful system.</p></div><span class="squad-arrow">↗</span></div></button>
-        <button class="squad-card squad-green" data-character="buttercup" type="button"><div class="squad-meta"><span>PLAYER 03</span><span>✳ GROWTH</span></div><img src="./assets/images/buttercup.webp" loading="lazy" alt="Buttercup-inspired green cybernetic growth specialist"/><div class="squad-bot"><div><small>THE GROWTH ENGINE</small><h3>BUTTERCUP</h3><p>No fluff. Just smarter leads, bolder moves and real traction.</p></div><span class="squad-arrow">↗</span></div></button>
+      <div class="squad-runway" aria-hidden="true"><div class="runway-light runway-pink"></div><div class="runway-light runway-blue"></div><div class="runway-light runway-green"></div><div class="runway-floor"></div></div>
+      <div class="squad-titles">
+        <button class="squad-spot squad-spot-pink" type="button" data-character="blossom"><small>01 / THE VISIONARY</small><strong>BLOSSOM</strong><span>STRATEGY + DIRECTION ↗</span></button>
+        <button class="squad-spot squad-spot-blue" type="button" data-character="bubbles"><small>02 / THE INVENTOR</small><strong>BUBBLES</strong><span>AI + AUTOMATION ↗</span></button>
+        <button class="squad-spot squad-spot-green" type="button" data-character="buttercup"><small>03 / THE CATALYST</small><strong>BUTTERCUP</strong><span>GROWTH + SALES ↗</span></button>
       </div>
-      <div class="squad-footnote"><span>HOVER THE 3D CHARACTERS ABOVE. CLICK TO PICK YOUR PLAYER.</span><span>THEY'RE A LITTLE EXTRA. SO ARE WE.</span></div>
+      <div class="squad-footnote"><span>MOVE YOUR CURSOR OVER THE GIRLS. THEY NOTICE.</span><span>SELECT A SPECIALIST TO START A MISSION.</span></div>
     </section>
 
     <section class="method section-padding" id="how-it-works">
       <div class="section-topline"><span>03 / THE METHOD</span><span>VERY REAL RESULTS. UNREASONABLY GOOD ENERGY.</span></div>
-      <div class="method-layout"><div class="method-heading reveal"><div class="label-chip">HOW WE MAKE IT HAPPEN</div><h2>FROM<br /><span class="gradient-ink">???</span><br />TO <span class="solid-arrow">↗</span>.</h2><p>No confusing buzzword soup. We untangle the problem, build the solution, and measure what matters.</p><a class="btn btn-hot" href="#diagnosis">START YOUR MISSION <span>↗</span></a></div><div class="steps"><div class="step reveal"><span>01</span><div><h3>DROP THE BIG IDEA.</h3><p>Tell us what you're building, what's broken or what's keeping you up at night. “I have no idea where to start” is a valid answer.</p></div><span>↗</span></div><div class="step reveal"><span>02</span><div><h3>WE CONNECT THE DOTS.</h3><p>We map opportunities, prioritize the work and recommend a plan that makes business sense.</p></div><span>↗</span></div><div class="step reveal"><span>03</span><div><h3>MAKE THE MACHINES WORK.</h3><p>Strategy meets execution: systems, automations, websites, campaigns and real operational improvements.</p></div><span>↗</span></div><div class="step reveal"><span>04</span><div><h3>LEVEL UP. REPEAT.</h3><p>Track outcomes, improve what's working and build toward the next business milestone.</p></div><span>↗</span></div></div></div>
+      <div class="method-layout"><div class="method-heading reveal"><div class="label-chip">HOW WE MAKE IT HAPPEN</div><h2>THE ART OF<br /><span class="gradient-ink">MAKING</span><br />IT HAPPEN.</h2><p>No confusing buzzword soup. We untangle the problem, build the solution, and measure what matters.</p><a class="btn btn-hot" href="#diagnosis">START YOUR MISSION <span>↗</span></a></div><div class="steps"><div class="step reveal"><span>01</span><div><h3>DROP THE BIG IDEA.</h3><p>Tell us what you're building, what's broken or what's keeping you up at night. “I have no idea where to start” is a valid answer.</p></div><span>↗</span></div><div class="step reveal"><span>02</span><div><h3>WE CONNECT THE DOTS.</h3><p>We map opportunities, prioritize the work and recommend a plan that makes business sense.</p></div><span>↗</span></div><div class="step reveal"><span>03</span><div><h3>MAKE THE MACHINES WORK.</h3><p>Strategy meets execution: systems, automations, websites, campaigns and real operational improvements.</p></div><span>↗</span></div><div class="step reveal"><span>04</span><div><h3>LEVEL UP. REPEAT.</h3><p>Track outcomes, improve what's working and build toward the next business milestone.</p></div><span>↗</span></div></div></div>
     </section>
 
     <section class="possibilities section-padding reveal"><div class="section-topline"><span>04 / SOME POSSIBLE MISSIONS</span><span>NOT CASE STUDIES. YOUR NEXT CHAPTER, MAYBE.</span></div><h2>WHAT COULD<br />WE <span class="gradient-ink">UNLOCK?</span></h2><div class="possibility-grid"><div class="possibility"><span>↗ 001</span><h3>THE WEBSITE THAT SELLS WHILE YOU SLEEP.</h3><p>Better positioning, conversion journeys and automated inquiry handling.</p></div><div class="possibility"><span>↗ 002</span><h3>THE SALES PIPELINE THAT NEVER FORGETS.</h3><p>Qualified prospect lists, thoughtful outreach and timely follow-ups.</p></div><div class="possibility"><span>↗ 003</span><h3>THE TEAMMATE THAT'S ACTUALLY AN AI AGENT.</h3><p>Assistants that handle admin, triage requests and move work forward.</p></div></div></section>

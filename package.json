@@ -1,11 +1,8 @@
 {
-  "name":"powerpuffgurls-cinematic-website",
+  "name":"powerpuffgurls-cinematic-v4",
   "private":true,
-  "version":"3.0.0",
-  "description":"Portable static 3D AI consultancy experience",
-  "scripts":{
-    "vendor:three":"node scripts/vendor-three.mjs",
-    "prepare:offline":"npm run vendor:three"
-  },
+  "version":"4.0.0",
+  "description":"Cinematic multi-character 3D AI consultancy experiment",
+  "scripts":{"build":"node scripts/build.mjs"},
   "dependencies":{"three":"0.180.0"}
 }
