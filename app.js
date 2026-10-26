@@ -11,6 +11,16 @@ function enableAudio(){try{audioCtx=audioCtx||new(window.AudioContext||window.we
 function playTone(freq=600,duration=.11,type='sine',volume=.035,delay=0){if(!soundOn||!audioCtx)return;try{const t=audioCtx.currentTime+delay,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(Math.max(100,freq*.82),t+duration);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(volume,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g).connect(audioCtx.destination);o.start(t);o.stop(t+duration+.02)}catch(e){}}
 function noiseHit(duration=.22,volume=.026){if(!soundOn||!audioCtx)return;const sr=audioCtx.sampleRate,len=Math.ceil(sr*duration),buff=audioCtx.createBuffer(1,len,sr),data=buff.getChannelData(0);for(let i=0;i<len;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/len,1.65);const src=audioCtx.createBufferSource(),f=audioCtx.createBiquadFilter(),g=audioCtx.createGain();src.buffer=buff;f.type='bandpass';f.frequency.value=1350;g.gain.value=volume;src.connect(f).connect(g).connect(audioCtx.destination);src.start()}
 const sound={hover(char){if(Date.now()-lastSound<175)return;lastSound=Date.now();playTone(tones[char]||690,.09,'sine',.015)},select(char){playTone(tones[char],.12,'triangle',.035);playTone(tones[char]*1.25,.14,'sine',.027,.09)},open(){[220,330,440,660].forEach((n,i)=>playTone(n,.18,'sawtooth',.015,i*.095));setTimeout(()=>noiseHit(.19),120)},scroll(){playTone(320,.15,'sine',.011);playTone(480,.15,'sine',.008,.05)},success(){[440,554,659,880].forEach((n,i)=>playTone(n,.19,'triangle',.03,i*.09))}};
+
+// Sound design is opt-in: all effects are synthesized, not voices or copyrighted game samples.
+window.addEventListener('ppg-action-sfx',e=>{
+  const a=e.detail?.action,c=e.detail?.character||activeCharacter;
+  if(a==='fly'){playTone(160,.32,'sawtooth',.035);playTone(450,.24,'sine',.028,.10);noiseHit(.24,.025);}
+  else if(a==='land'){playTone(90,.24,'triangle',.07);noiseHit(.22,.05);playTone(280,.13,'sine',.018,.20);}
+  else if(a==='wave'){playTone(tones[c]||650,.10,'sine',.021);playTone((tones[c]||650)*1.33,.12,'sine',.016,.10);}
+  else if(a==='run'){[350,410,350].forEach((freq,i)=>playTone(freq,.07,'square',.013,i*.09));}
+  else if(a==='dance'){[330,440,554,660,830].forEach((freq,i)=>playTone(freq,.10,'triangle',.018,i*.12));}
+});
 $('#sound-toggle')?.addEventListener('click',()=>{if(!soundOn){if(!enableAudio())return;soundOn=true;sound.open()}else soundOn=false;$('#sound-toggle').setAttribute('aria-pressed',String(soundOn));$('#sound-label').textContent=soundOn?'SOUND ON':'SOUND OFF';$('#sound-toggle').setAttribute('aria-label',soundOn?'Disable sounds':'Enable sounds')});
 $$('a,button').forEach(el=>el.addEventListener('pointerenter',()=>sound.hover(activeCharacter)));
 $('#menu-toggle')?.addEventListener('click',()=>{const el=$('.nav-links');el.classList.toggle('menu-open');const isOpen=el.classList.contains('menu-open');$('#menu-toggle').setAttribute('aria-expanded',String(isOpen));$('#menu-toggle').textContent=isOpen?'×':'☰'});

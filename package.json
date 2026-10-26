@@ -1,0 +1,11 @@
+{
+  "name":"powerpuffgurls-cinematic-website",
+  "private":true,
+  "version":"3.0.0",
+  "description":"Portable static 3D AI consultancy experience",
+  "scripts":{
+    "vendor:three":"node scripts/vendor-three.mjs",
+    "prepare:offline":"npm run vendor:three"
+  },
+  "dependencies":{"three":"0.180.0"}
+}

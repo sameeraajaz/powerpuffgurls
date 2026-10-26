@@ -1,0 +1,35 @@
+{
+  "bubbles": {
+    "bytes": 3414080,
+    "animations": [
+      "Running",
+      "Walking",
+      "Dive_Down_and_Land_2",
+      "Jump_Rope",
+      "Leap_of_Faith",
+      "Wave_One_Hand"
+    ]
+  },
+  "buttercup": {
+    "bytes": 3319084,
+    "animations": [
+      "Running",
+      "Walking",
+      "Dive_Down_and_Land_2",
+      "Jump_Rope",
+      "Leap_of_Faith",
+      "Wave_One_Hand"
+    ]
+  },
+  "blossom": {
+    "bytes": 3760344,
+    "animations": [
+      "Running",
+      "Walking",
+      "Dive_Down_and_Land_2",
+      "Jump_Rope",
+      "Leap_of_Faith",
+      "Wave_One_Hand"
+    ]
+  }
+}

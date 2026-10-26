@@ -32,7 +32,7 @@
     <section class="hero" id="top">
       <div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-copy">
-        <div class="eyebrow"><span class="pulse-dot"></span> THE FUTURE HAS ENTERED THE CHAT <span class="tiny-code">// EST. RIGHT NOW</span></div>
+        <div class="eyebrow"><span class="pulse-dot"></span> A NEW KIND OF BUSINESS UNIVERSE <span class="tiny-code">// EST. RIGHT NOW</span></div>
         <h1>BIG IDEAS.<br /><em>BIG<span class="outline-type">GER</span></em><br /> MOVES<span class="period">.</span></h1>
         <p class="hero-desc">Got a business idea? A process that needs fixing? A sales pipeline that needs a serious power-up? <strong>You're in the right universe.</strong></p>
         <div class="hero-buttons"><a class="btn btn-hot" href="#diagnosis">FIND YOUR NEXT MOVE <span>↗</span></a><a class="btn btn-outline" href="#what-we-do">EXPLORE THE UNIVERSE <span>↓</span></a></div>
@@ -48,9 +48,23 @@
         <canvas id="character-canvas" aria-label="Animated three-dimensional cybernetic characters"></canvas>
         <span class="floating-code floating-code-one">[ 3 SPECIALISTS ONLINE ]</span><span class="floating-code floating-code-two">// READY WHEN YOU ARE</span>
         <button class="dock-close" id="dock-close" type="button" title="Hide floating characters" aria-label="Hide floating characters">×</button>
-        <div class="stage-status"><span class="status-symbol">◎</span> <span id="character-status">INITIALIZING THE SQUAD...</span></div>
+        <div class="stage-status"><span class="status-symbol">◎</span> <span id="character-status" aria-live="polite">INITIALIZING THE SQUAD...</span></div>
+        <div class="stage-interface" aria-label="Choose a character and trigger animation">
+          <div class="stage-roster" role="group" aria-label="Choose your specialist">
+            <button class="roster-pill" data-stage-character="blossom" aria-label="Select Blossom" aria-pressed="true"><span class="pill-led pink-led"></span> BLOSSOM</button>
+            <button class="roster-pill" data-stage-character="bubbles" aria-label="Select Bubbles" aria-pressed="false"><span class="pill-led blue-led"></span> BUBBLES</button>
+            <button class="roster-pill" data-stage-character="buttercup" aria-label="Select Buttercup" aria-pressed="false"><span class="pill-led green-led"></span> BUTTERCUP</button>
+          </div>
+          <div class="motion-console" role="group" aria-label="Character actions">
+            <button class="motion-chip" data-motion="wave" type="button" aria-pressed="false" title="Give a greeting">✳ WAVE</button>
+            <button class="motion-chip" data-motion="fly" type="button" aria-pressed="false" title="Launch into flight">↗ FLY</button>
+            <button class="motion-chip" data-motion="land" type="button" aria-pressed="false" title="Superhero landing">↘ LAND</button>
+            <button class="motion-chip" data-motion="run" type="button" aria-pressed="false" title="Run in place">⚡ RUN</button>
+            <button class="motion-chip" data-motion="dance" type="button" aria-pressed="false" title="Extra bounce animation">✦ BOUNCE</button>
+          </div>
+        </div>
       </div>
-      <div class="hero-footer"><span>SCROLL TO ENTER <span class="scroll-arrow">↓</span></span><div class="hero-index">001 / AN EXPERIMENT IN WHAT'S POSSIBLE</div><span>IDEAS → IMPACT</span></div>
+      <div class="hero-footer"><span>SCROLL TO ACTIVATE <span class="scroll-arrow">↓</span></span><div class="hero-index">001 / AN EXPERIMENT IN WHAT'S POSSIBLE</div><span>IDEAS → IMPACT</span></div>
     </section>
 
     <div class="ticker" aria-label="Consulting capabilities"><div class="ticker-track"><span>IDEAS</span><i>✳</i><span>STRATEGY</span><i>✳</i><span>AUTOMATION</span><i>✳</i><span>MORE CUSTOMERS</span><i>✳</i><span>LESS BUSYWORK</span><i>✳</i><span>REAL MOMENTUM</span><i>✳</i><span>IDEAS</span><i>✳</i><span>STRATEGY</span><i>✳</i><span>AUTOMATION</span><i>✳</i><span>MORE CUSTOMERS</span><i>✳</i></div></div>
@@ -74,7 +88,7 @@
         <button class="squad-card squad-blue" data-character="bubbles" type="button"><div class="squad-meta"><span>PLAYER 02</span><span>◆ AUTOMATION</span></div><img src="./assets/images/bubbles.webp" loading="lazy" alt="Bubbles-inspired blue AI automation specialist"/><div class="squad-bot"><div><small>THE WORKFLOW WIZARD</small><h3>BUBBLES</h3><p>Turning a thousand tiny tasks into one beautiful system.</p></div><span class="squad-arrow">↗</span></div></button>
         <button class="squad-card squad-green" data-character="buttercup" type="button"><div class="squad-meta"><span>PLAYER 03</span><span>✳ GROWTH</span></div><img src="./assets/images/buttercup.webp" loading="lazy" alt="Buttercup-inspired green cybernetic growth specialist"/><div class="squad-bot"><div><small>THE GROWTH ENGINE</small><h3>BUTTERCUP</h3><p>No fluff. Just smarter leads, bolder moves and real traction.</p></div><span class="squad-arrow">↗</span></div></button>
       </div>
-      <div class="squad-footnote"><span>HOVER. EXPLORE. PICK YOUR PLAYER.</span><span>THEY'RE A LITTLE EXTRA. SO ARE WE.</span></div>
+      <div class="squad-footnote"><span>HOVER THE 3D CHARACTERS ABOVE. CLICK TO PICK YOUR PLAYER.</span><span>THEY'RE A LITTLE EXTRA. SO ARE WE.</span></div>
     </section>
 
     <section class="method section-padding" id="how-it-works">
