@@ -1,4 +1,4 @@
-# THE GURLS — The Possible Department (V3)
+# POWERPUFFGURLS — The Possible Department (V4)
 
 Static, deployable website for the experimental PowerpuffGurls.com business consultancy project.
 
@@ -21,7 +21,7 @@ Static, deployable website for the experimental PowerpuffGurls.com business cons
 1. Upload the contents of this ZIP as a static website using Vercel Drop, or put this directory in a Git repository and import that repository to Vercel.
 2. No npm install or build command is needed for the supplied deployment package. The root contains `index.html`.
 3. The deployment should serve `assets/models/*.glb` with a binary Content-Type (ideally `model/gltf-binary`).
-4. Test `<your-site>/?debug3d=1` and inspect the browser console for `[The Gurls 3D]` messages. Verify `assets/models/blossom.glb`, `bubbles.glb`, `buttercup.glb` return HTTP 200.
+4. Test `<your-site>/?debug3d=1` and inspect the browser console for `[PowerpuffGurls 3D]` messages. Verify `assets/models/blossom.glb`, `bubbles.glb`, `buttercup.glb` return HTTP 200.
 
 ### cPanel / conventional file manager
 
@@ -34,7 +34,7 @@ The page is a real static interactive prototype. It does **not** yet connect to 
 Edit `config.js`:
 
 ```js
-window.GURLS_CONFIG = {
+window.POWERPUFFPOWERPUFFGURLS_CONFIG = {
   inquiryEndpoint: '', // Your HTTPS POST JSON endpoint
   bookingUrl: '',     // Your scheduling URL
   contactEmail: ''    // Optional email-draft destination
@@ -62,4 +62,4 @@ Load failures are described in browser developer tools. The query param `?debug3
 
 ## Brand/IP note
 
-The uploaded models are stylized references to established cartoon characters. Commercial public deployment of recognizable characters or a confusingly similar franchise name may require licenses or original redesigns. The frontend branding here uses "The Gurls" without an original franchise logo.
+The uploaded models are stylized references to established cartoon characters. Commercial public deployment of recognizable characters or a confusingly similar franchise name may require licenses or original redesigns. The frontend branding here uses "PowerpuffGurls" without an original franchise logo.

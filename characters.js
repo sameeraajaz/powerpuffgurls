@@ -3,9 +3,9 @@
 const debug = new URLSearchParams(location.search).has('debug3d');
 let debugBox;
 function logStatus(message, isError=false){
-  console[isError?'warn':'info']('[The Gurls 3D]',message);
+  console[isError?'warn':'info']('[PowerpuffGurls 3D]',message);
   if(debug){if(!debugBox){debugBox=document.createElement('div');Object.assign(debugBox.style,{position:'fixed',right:'8px',top:'115px',maxWidth:'300px',padding:'10px 12px',background:'#10111ef5',color:'#b4ffbe',font:'11px monospace',zIndex:'9999',border:'1px solid #ffffff55',borderRadius:'6px',pointerEvents:'none'});document.body.appendChild(debugBox)}debugBox.textContent=message;debugBox.style.color=isError?'#ff91af':'#b4ffbe'}
-  if(isError)window.dispatchEvent(new CustomEvent('gurls:model-error',{detail:message}));
+  if(isError)window.dispatchEvent(new CustomEvent('powerpuffgurls:model-error',{detail:message}));
 }
 function isWebGLSupported(){try{const c=document.createElement('canvas');return !!(c.getContext('webgl2')||c.getContext('webgl'))}catch{return false}}
 async function getEngine(){
@@ -65,7 +65,7 @@ async function init(){
     }
     function resize(force=false){const host=activeTarget==='console'?consoleTarget:hero;const w=Math.max(100,host.clientWidth),h=Math.max(150,host.clientHeight);if(force||w!==lastDims.w||h!==lastDims.h){lastDims={w,h};renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=activeTarget==='console'?34:35;camera.updateProjectionMatrix()}}
     function setRole(e){activeRole=e.detail.role;const f=figures.find(x=>x.role===activeRole);if(f){const idle=f.clips.find(x=>/idle/i.test(x.name));if(idle){const act=f.mixer.clipAction(idle);act.reset().fadeIn(.35).play()}}}
-    addEventListener('gurls:role',setRole);
+    addEventListener('powerpuffgurls:role',setRole);
     document.addEventListener('pointermove',e=>{const target=(activeTarget==='console'?consoleTarget:hero).getBoundingClientRect();mouse.x=Math.max(-1,Math.min(1,(e.clientX-(target.left+target.width/2))/(target.width/2)));mouse.y=Math.max(-1,Math.min(1,(e.clientY-(target.top+target.height/2))/(target.height/2)))},{passive:true});
     let acc=0,scrollProgress=0;
     addEventListener('scroll',()=>{scrollProgress=Math.max(0,Math.min(1,scrollY/(document.documentElement.scrollHeight-innerHeight||1)));updateTarget()},{passive:true});

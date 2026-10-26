@@ -1,4 +1,4 @@
-THE GURLS / V3 DEPLOYMENT CHECKLIST
+POWERPUFFGURLS / V3 DEPLOYMENT CHECKLIST
 
 [ ] Upload ZIP contents to Vercel Drop or public_html.
 [ ] Open HTTPS URL and confirm header, hero and consultation render.
